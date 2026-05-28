@@ -1,2 +1,7 @@
-# proyecto_control_de_prestamos_poo_tec_i_2026
-Proyecto final para el curso de programación orientada a objetos - TEC - I - 2026
+# TEC - Tecnológico de Costa Rica
+# Programación Orientada a Objetos IC-2101
+# Profesor: Mauricio Avilés
+# Proyecto Control de Préstamos
+# Hecho por: Vladimir Tarassenko
+# 2025800696
+# Mayo del 2026
