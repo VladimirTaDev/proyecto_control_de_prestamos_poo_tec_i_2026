@@ -4,4 +4,4 @@
 # Proyecto Control de Préstamos
 # Hecho por: Vladimir Tarassenko
 # 2025800696
-# Mayo del 2026
+# Junio del 2026
