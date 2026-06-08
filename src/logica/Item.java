@@ -6,11 +6,14 @@ public class Item {
 	private String nombre;
 	private String descripcion;
 	private Set<Categoria> categorias; // TreeSet - Ordenamiento automático de elementos por orden alfabético y no permite duplicados
-
-	public Item(String nombre, String descripcion, Tipo tipo) {
+	private Tipo tipoAsignado;
+	
+	public Item(String nombre, String descripcion, Tipo tipo, Categoria categoria) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.categorias = new java.util.TreeSet<>();
+		this.tipoAsignado = tipo;
+		this.categorias.add(categoria);
 	}
 	
 	public String getNombre() {
@@ -34,7 +37,18 @@ public class Item {
 	}
 	
 	public void asignarTipo(Tipo tipo) {
-		// No implementado.
+		this.tipoAsignado = tipo;
+	}
+	
+	public Tipo getTipo() {
+		return tipoAsignado;
+	}
+	public Categoria getCategoria() {
+		// TODO: Implementar retornar lista de categorías.
+		if (categorias.isEmpty()) {
+			return null; // No hay categorías asignadas
+		}
+		return categorias.iterator().next(); // Retorna la primera categoría asignada
 	}
 	
 	public void asignarCategoria(Categoria categoria) {
@@ -54,5 +68,5 @@ public class Item {
 		// No implementado.
 		// Parametro: Prestamo prestamo
 	}
-
+	
 }

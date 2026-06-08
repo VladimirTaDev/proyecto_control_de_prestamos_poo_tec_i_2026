@@ -2,19 +2,20 @@ package logica;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public class Prestamo {
 	private Persona prestatario;
 	private LocalDateTime fechaPrestamo;
 	private LocalDateTime fechaLimite;
-	private List<Item> itemsPrestados;
+	private Map<String, Item> itemsPrestados; // TreeMap - Ordenamiento automático de llaves por orden alfabético
 	private Alerta alertaAsignada;
 
 	public Prestamo(Persona prestatario, int diasLimite) {
 		this.prestatario = prestatario;
 		this.fechaPrestamo = LocalDateTime.now();
 		this.fechaLimite = fechaPrestamo.plusDays(diasLimite); // Ejemplo: plazo de préstamo de 14 días
-		this.itemsPrestados = new java.util.ArrayList<>();
+		this.itemsPrestados = new java.util.TreeMap<>(); 
 	}
 	
 	public void setPrestatario(Persona prestatario) {
@@ -42,7 +43,7 @@ public class Prestamo {
 	}
 	
 	public void setItem(Item item) {
-		itemsPrestados.add(item);
+		itemsPrestados.put(item.getNombre(), item);
 	}
 	
 	public void removerItem(Item item) {

@@ -27,5 +27,9 @@ public class Tipo {
 	public Collection<Item> getItems() {
 		return this.items.values();
 	}
+	
+	public String getNombre() {
+		return formato;
+	}
 
 }
