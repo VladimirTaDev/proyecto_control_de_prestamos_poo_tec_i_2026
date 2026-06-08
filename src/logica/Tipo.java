@@ -19,17 +19,24 @@ public class Tipo {
 	public String getFormato() {
 		return formato;
 	}
-	
-	public void setItem(Item item) {
-		items.put(item.getNombre(), item);
-	}
-	
-	public Collection<Item> getItems() {
-		return this.items.values();
-	}
-	
+		
 	public String getNombre() {
 		return formato;
 	}
-
+	
+	public boolean agregarItem(Item item) {
+		if (items.containsKey(item.getNombre())) {
+			return false; // El item ya existe en este tipo
+		}
+		items.put(item.getNombre(), item);
+		return true;
+	}
+	
+	public boolean eliminarItem(String nombre) {
+		if (!items.containsKey(nombre)) {
+			return false; // El item no existe en este tipo
+		}
+		items.remove(nombre);
+		return true;
+	}
 }

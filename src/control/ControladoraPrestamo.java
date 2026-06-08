@@ -12,14 +12,14 @@ public class ControladoraPrestamo {
 	
 	private Map<String, Item> items; // TreeMap - Ordenamiento automático de llaves por orden alfabético
 	private List<Prestamo> prestamos;
-	private List<Persona> personas;
+	private Map<String, Persona> personas; // TreeMap
 	private Set<Categoria> categorias; // TreeSet - Ordenamiento automático de elementos por orden alfabético y no permite duplicados
 	private List<Tipo> tipos;
 	
 	public ControladoraPrestamo() {
 		items = new java.util.TreeMap<>();
 		prestamos = new java.util.ArrayList<>();
-		personas = new java.util.ArrayList<>();
+		personas = new java.util.TreeMap<>();
 		categorias = new java.util.TreeSet<>();
 		tipos = new java.util.ArrayList<>();
 	}
@@ -66,6 +66,25 @@ public class ControladoraPrestamo {
 		}
 		return "Nombre: " + item.getNombre() + "\nDescripción: " + item.getDescripcion() + "\nCategorías: "
 				+ item.getCategoria() + "\nTipo: " + item.getTipo();
+	}
+	
+	public boolean crearPerosna(String nombre, String telefono, String email) {
+		if (personas.containsKey(nombre)) {
+			return false; // La persona ya existe
+		}
+		Persona nuevaPersona = new Persona(nombre, telefono, email);
+		personas.put(nombre, nuevaPersona);
+		return true;
+	}
+	
+	public boolean modificarPersona(String nombre, String nuevoTelefono, String nuevoEmail) {
+		Persona persona = personas.get(nombre);
+		if (persona == null) {
+			return false; // La persona no existe
+		}
+		persona.setTelefono(nuevoTelefono);
+		persona.setEmail(nuevoEmail);
+		return true;
 	}
 
 }

@@ -7,6 +7,7 @@ public class Item {
 	private String descripcion;
 	private Set<Categoria> categorias; // TreeSet - Ordenamiento automático de elementos por orden alfabético y no permite duplicados
 	private Tipo tipoAsignado;
+	private Prestamo prestamoActual = null;
 	
 	public Item(String nombre, String descripcion, Tipo tipo, Categoria categoria) {
 		this.nombre = nombre;
@@ -14,6 +15,7 @@ public class Item {
 		this.categorias = new java.util.TreeSet<>();
 		this.tipoAsignado = tipo;
 		this.categorias.add(categoria);
+		this.prestamoActual = prestamoActual;
 	}
 	
 	public String getNombre() {
@@ -33,7 +35,7 @@ public class Item {
 	}
 	
 	public boolean esPrestadp() {
-		return !categorias.isEmpty();
+		return this.prestamoActual != null;
 	}
 	
 	public void asignarTipo(Tipo tipo) {
@@ -43,6 +45,11 @@ public class Item {
 	public Tipo getTipo() {
 		return tipoAsignado;
 	}
+	
+	public Prestamo getPrestamoActual() {
+		return prestamoActual;
+	}
+	
 	public Categoria getCategoria() {
 		// TODO: Implementar retornar lista de categorías.
 		if (categorias.isEmpty()) {
@@ -59,14 +66,12 @@ public class Item {
 		categorias.remove(categoria);
 	}
 	
-	public void asignarPrestamoActual() {
-		// No implementado.
-		// Parametro: Prestamo prestamo
+	public void asignarPrestamoActual(Prestamo prestamoActual) {
+		this.prestamoActual = prestamoActual;
 	}
 	
 	public void removerPrestamoActual() {
-		// No implementado.
-		// Parametro: Prestamo prestamo
+		this.prestamoActual = null;
 	}
 	
 }
