@@ -14,14 +14,14 @@ public class ControladoraPrestamo {
 	private List<Prestamo> prestamos;
 	private Map<String, Persona> personas; // TreeMap
 	private Map<String, Categoria> categorias; // TreeMap - Ordenamiento automático de llaves por orden alfabético
-	private List<Tipo> tipos;
+	private Map<String, Tipo> tipos; // TreeMap - Ordenamiento automático de llaves por orden alfabético
 	
 	public ControladoraPrestamo() {
 		items = new java.util.TreeMap<>();
 		prestamos = new java.util.ArrayList<>();
 		personas = new java.util.TreeMap<>();
 		categorias = new java.util.TreeMap<>();
-		tipos = new java.util.ArrayList<>();
+		tipos = new java.util.TreeMap<>();
 	}
 	
 	public static ControladoraPrestamo getInstancia() {
@@ -125,5 +125,60 @@ public class ControladoraPrestamo {
 		categorias.put(nuevoTema, categoria);
 		return true;
 	}
+	
+	public boolean borrarCategoria(String nombreCategoria) {
+		if (!categorias.containsKey(nombreCategoria)) {
+			return false; // La categoría no existe
+		}
+		categorias.remove(nombreCategoria);
+		return true;
+	}
+	
+	public String consultarCategoria(String nombreCategoria) {
+		Categoria categoria = categorias.get(nombreCategoria);
+		if (categoria == null) {
+			return "La categoría no existe.";
+		}
+		return "Tema: " + categoria.getTema();
+	}
+	
+	public boolean crearTipo(String nombreTipo) {
+		if (tipos.containsKey(nombreTipo)) {
+			return false; // El tipo ya existe
+		}
+		Tipo nuevoTipo = new Tipo(nombreTipo);
+		tipos.put(nombreTipo, nuevoTipo);
+		return true;
+	}
+	
+	public boolean modificarTipo(String nombreActual, String nuevoNombre) {
+		Tipo tipo = tipos.get(nombreActual);
+		if (tipo == null) {
+			return false; // El tipo no existe
+		}
+		// Eliminar
+		tipos.remove(nombreActual);
+		// Cambiar el formato
+		tipo.setFormato(nuevoNombre);
+		// Re-insertar
+		tipos.put(nuevoNombre, tipo);
+		return true;
+	}
+	
+	public boolean borrarTipo(String nombreTipo) {
+		if (!tipos.containsKey(nombreTipo)) {
+			return false; // El tipo no existe
+		}
+		tipos.remove(nombreTipo);
+		return true;
+	}
+	
+	public String consultarTipo(String nombreTipo) {
+		Tipo tipo = tipos.get(nombreTipo);
+		if (tipo == null) {
+			return "El tipo no existe.";
+		}
+		return "Formato: " + tipo.getFormato();
+	}	
 
 }

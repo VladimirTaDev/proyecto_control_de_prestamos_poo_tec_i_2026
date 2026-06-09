@@ -5,14 +5,14 @@ import java.util.Set;
 public class Item {
 	private String nombre;
 	private String descripcion;
-	private Set<Categoria> categorias; // TreeSet - Ordenamiento automático de elementos por orden alfabético y no permite duplicados
+	private Set<Categoria> categorias; // HashSet - No permite duplicados
 	private Tipo tipoAsignado;
 	private Prestamo prestamoActual = null;
 	
 	public Item(String nombre, String descripcion, Tipo tipo, Categoria categoria) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
-		this.categorias = new java.util.TreeSet<>();
+		this.categorias = new java.util.HashSet<>();
 		this.tipoAsignado = tipo;
 		this.categorias.add(categoria);
 		this.prestamoActual = prestamoActual;
