@@ -11,7 +11,7 @@ public class ControladoraPrestamo {
 	private static ControladoraPrestamo instancia;
 	
 	private Map<String, Item> items; // TreeMap - Ordenamiento automático de llaves por orden alfabético
-	private List<Prestamo> prestamos;
+	private List<Prestamo> prestamos; // ArrayList
 	private Map<String, Persona> personas; // TreeMap
 	private Map<String, Categoria> categorias; // TreeMap - Ordenamiento automático de llaves por orden alfabético
 	private Map<String, Tipo> tipos; // TreeMap - Ordenamiento automático de llaves por orden alfabético
@@ -179,6 +179,52 @@ public class ControladoraPrestamo {
 			return "El tipo no existe.";
 		}
 		return "Formato: " + tipo.getFormato();
-	}	
+	}
+	
+	public boolean hacerPrestamo(Persona prestatario, int diasLimite) {
+		if (prestatario == null || diasLimite <= 0) {
+			return false; // Datos inválidos
+		}
+		Prestamo nuevoPrestamo = new Prestamo(prestatario, diasLimite);
+		prestamos.add(nuevoPrestamo);
+		return true;
+	}
+	
+	public boolean agregarItemAlPrestamo(Prestamo prestamo, Item item) {
+		if (prestamo == null || item == null) {
+			return false; // Datos inválidos
+		}
+		prestamo.setItem(item);
+		return true; // El item se agregó al préstamo
+	}
+	
+	public boolean eliminarItemDelPrestamo(Prestamo prestamo, Item item) {
+		if (prestamo == null || item == null) {
+			return false; // Datos inválidos
+		}
+		prestamo.removerItem(item);
+		return true; // El item se removió del préstamo
+	}
+	
+	// No implementado correctamente, se asume que el item se retorna del préstamo
+	public boolean retornarItemDelPrestamo(Prestamo prestamo, Item item) {
+		
+		if (prestamo == null || item == null) {
+			return false; // Datos inválidos
+		}
+		prestamo.removerItem(item);
+		return true; // El item se retornó del préstamo
+	}
+	
+	// No implementado correctamente, se asume que el préstamo se finaliza al retornar el item
+	public boolean finalizarPrestamo(Prestamo prestamo) {
+		if (prestamo == null) {
+			return false; // Datos inválidos
+		}
+		// prestamo.finalizar(); ???
+		return true; // El préstamo se finalizó
+	}
+	
+	
 
 }
