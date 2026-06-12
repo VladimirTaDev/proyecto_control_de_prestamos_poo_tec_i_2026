@@ -30,6 +30,14 @@ public class Prestamo {
 		return fechaLimite;
 	}
 	
+	public LocalDateTime getFechaPrestamo() {
+		return fechaPrestamo;
+	}
+	
+	public Map<String, Item> getItemsPrestados() {
+		return itemsPrestados;
+	}
+	
 	public void setFechaLimite(LocalDateTime fechaLimite) {
 		this.fechaLimite = fechaLimite;
 	}

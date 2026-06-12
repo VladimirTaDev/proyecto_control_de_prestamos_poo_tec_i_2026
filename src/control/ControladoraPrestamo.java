@@ -225,6 +225,44 @@ public class ControladoraPrestamo {
 		return true; // El préstamo se finalizó
 	}
 	
+	// Métodos para obtener listados de personas, items, categorías y tipos
+	public List<Persona> getListadoPersonas() {
+		return new java.util.ArrayList<>(personas.values());
+	}
 	
+	public List<Item> getListadoItems() {
+		return new java.util.ArrayList<>(items.values());
+	}
+	
+	public List<Categoria> getListadoCategorias() {
+		return new java.util.ArrayList<>(categorias.values());
+	}
+	
+	public List<Tipo> getListadoTipos() {
+		return new java.util.ArrayList<>(tipos.values());
+	}
+	
+	public String reportePorUsuario() {
+		StringBuilder reporte = new StringBuilder();
+		
+		// Itera las personas
+		for (Persona persona : personas.values()) {
+			reporte.append("Usuario: ").append(persona.getNombre()).append("\n");
+			
+			// Itera los préstamos de la persona
+			for (Prestamo prestamo : prestamos) {
+				if (prestamo.getPrestatario().equals(persona)) {
+					reporte.append("  Fecha de préstamo: ").append(prestamo.getFechaPrestamo()).append("\n");
+					
+					// Itera los items del préstamo
+					for (String item : prestamo.getItemsPrestados().keySet()) {
+						reporte.append("    Item: ").append(item).append("\n");
+					}
+				}
+			}
+		}
+		// Retorna el reporte como String
+		return reporte.toString();
+	}
 
 }
