@@ -22,5 +22,13 @@ public class Categoria {
 	public void setItem(Item item) {
 		items.put(item.getNombre(), item);
 	}
+	
+	public boolean eliminarItem(String nombreItem) {
+		if (!items.containsKey(nombreItem)) {
+			return false; // El item no existe
+		}
+		items.remove(nombreItem);
+		return true;
+	}
 
 }

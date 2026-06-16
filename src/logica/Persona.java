@@ -50,4 +50,8 @@ public class Persona {
 		prestamos.add(prestamo);
 	}
 	
+	public void eliminarPrestamo(Prestamo prestamo) {
+		prestamos.remove(prestamo);
+	}
+	
 }

@@ -32,11 +32,11 @@ public class Tipo {
 		return true;
 	}
 	
-	public boolean eliminarItem(String nombre) {
-		if (!items.containsKey(nombre)) {
+	public boolean eliminarItem(String nombreItem) {
+		if (!items.containsKey(nombreItem)) {
 			return false; // El item no existe en este tipo
 		}
-		items.remove(nombre);
+		items.remove(nombreItem);
 		return true;
 	}
 }
