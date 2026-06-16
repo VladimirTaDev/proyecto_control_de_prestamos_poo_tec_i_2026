@@ -57,10 +57,20 @@ public class ControladoraPrestamo {
 		if (categoria == null || tipo == null) {
 			return false; // La nueva categoría o el nuevo tipo no existen
 		}
+		// Obtener antiguos antes de cambiar
+		Categoria categoriaAntigua = item.getCategoria();
+		Tipo tipoAntiguo = item.getTipo();
+
+		// Remover item antiguos de sus categorías y tipos anteriores
+		categoriaAntigua.eliminarItem(nombre);
+		tipoAntiguo.eliminarItem(nombre);
+
+		// Asignar los nuevos
 		item.setDescripcion(nuevaDescripcion);
-		item.asignarTipo(tipo);
-		categoria.setItem(item);
-		tipo.agregarItem(item);
+		item.asignarCategoria(categoria); // Asignar nueva categoría al item
+		item.asignarTipo(tipo); // Asignar el nuevo tipo al item
+		categoria.setItem(item); // Item a categoría
+		tipo.agregarItem(item); // Item a tipo
 		return true;
 	}
 		
@@ -68,10 +78,74 @@ public class ControladoraPrestamo {
 		if (!items.containsKey(nombre)) {
 			return false; // El item no existe
 		}
+		
+		// Obtener el item, categoría y tipo a eliminar
+		Item item = items.get(nombre);
+	    Categoria cat = item.getCategoria();
+	    Tipo tipo = item.getTipo();
+	    cat.eliminarItem(nombre);
+	    tipo.eliminarItem(nombre);
+		
 		items.remove(nombre);
 		return true;
 	}
 	
+	public boolean agregarCategoriaAItem(String nombreItem, String nombreCategoria) {
+		Item item = items.get(nombreItem);
+		Categoria categoria = categorias.get(nombreCategoria);
+		if (item == null || categoria == null) {
+			return false;
+		}
+		// Se asigna a ambos lados
+		item.asignarCategoria(categoria); // Item > Categoria
+		categoria.setItem(item); // Categoria > Item
+		return true;
+	}
+	
+	public boolean eliminarCategoriaDeItem(String nombreItem, String nombreCategoria) {
+		Item item = items.get(nombreItem);
+		Categoria categoria = categorias.get(nombreCategoria);
+		if (item == null || categoria == null) {
+			return false;
+		}
+		// Se remueve de ambos lados
+		item.removerCategoria(categoria); // Item > quita Categoria
+		categoria.eliminarItem(nombreItem); // Categoria > quita Item
+		return true;
+	}
+	
+	public boolean cambiarTipoDeItem(String nombreItem, String nombreTipo) {
+		Item item = items.get(nombreItem);
+		Tipo nuevoTipo = tipos.get(nombreTipo);
+		if (item == null || nuevoTipo == null) {
+			return false;
+		}
+		// Obtener el tipo antiguo para remover el item de ese tipo
+		Tipo tipoAntiguo = item.getTipo();
+		if (tipoAntiguo != null) {
+			tipoAntiguo.eliminarItem(nombreItem);
+		}
+		// Asignar el nuevo tipo al item y agregar el item al nuevo tipo
+		item.asignarTipo(nuevoTipo); // Item > Tipo
+		nuevoTipo.agregarItem(item); // Tipo > Item
+		return true;
+	}
+
+	public boolean asignarAlertaAPrestamo(int indicePrestamo, String mensaje, int enDias, boolean esRecurrente,
+			int intervalo) {
+		if (indicePrestamo < 0 || indicePrestamo >= prestamos.size()) {
+			return false; // No hay prestamos en esa posición
+		}
+
+		// Se calcula la fecha sumando días a la fecha actual
+		java.time.LocalDateTime fechaAlerta = java.time.LocalDateTime.now().plusDays(enDias);
+
+		Alerta alerta = new Alerta(mensaje, fechaAlerta, esRecurrente, intervalo);
+		Prestamo prestamo = prestamos.get(indicePrestamo);
+		prestamo.setAlerta(alerta);
+		return true;
+	}
+
 	public String consultarItem(String nombre) {
 		Item item = items.get(nombre);
 		if (item == null) {
@@ -201,6 +275,7 @@ public class ControladoraPrestamo {
 		}
 		Prestamo nuevoPrestamo = new Prestamo(prestatario, diasLimite);
 		prestamos.add(nuevoPrestamo);
+		prestatario.setPrestamo(nuevoPrestamo); // Agrega el préstamo a la persona
 		return true;
 	}
 	
@@ -214,6 +289,7 @@ public class ControladoraPrestamo {
 		}
 		Prestamo prestamo = prestamos.get(indicePrestamo);
 		prestamo.setItem(item);
+		item.asignarPrestamoActual(prestamo); // Agrega el préstamo al item
 		return true;
 	}
 	
@@ -227,6 +303,7 @@ public class ControladoraPrestamo {
 		}
 		Prestamo prestamo = prestamos.get(indicePrestamo);
 		prestamo.removerItem(item);
+		item.removerPrestamoActual(); // Elimina el préstamo del item
 		return true;
 	}
 				
