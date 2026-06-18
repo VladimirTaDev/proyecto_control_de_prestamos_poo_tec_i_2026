@@ -22,6 +22,9 @@ public class ControladoraPrestamo {
 		personas = new java.util.TreeMap<>();
 		categorias = new java.util.TreeMap<>();
 		tipos = new java.util.TreeMap<>();
+		
+		// TEMPORAL: Carga datos de prueba Metal Gear
+		cargarDatosPrueba();
 	}
 	
 	public static ControladoraPrestamo getInstancia() {
@@ -362,6 +365,40 @@ public class ControladoraPrestamo {
 		}
 		// Retorna el reporte como String
 		return reporte.toString();
+	}
+
+	// TEMPORAL: Carga datos de prueba Metal Gear
+	private void cargarDatosPrueba() {
+		// Personass
+		crearPerosna("Ivan Raikov", "555-0101", "ivan@gru.ru");
+		crearPerosna("Olga Gurlukovich", "555-0202", "olga@gru.ru");
+		crearPerosna("Sergei Gurlukovich", "555-0303", "sergei@gru.ru");
+
+		// Tipos
+		crearTipo("Tecnología");
+		crearTipo("Supervivencia");
+
+		// Categorías
+		crearCategoria("Comunicaciones");
+		crearCategoria("Visión");
+		crearCategoria("Camuflaje");
+		crearCategoria("Raciones");
+
+		// Items
+		crearItem("Codec", "Dispositivo de comunicación a través de nanomáquinas.", "Comunicaciones", "Tecnología");
+		crearItem("Thermal Goggles", "Gafas de visión térmica para detectar calor corporal.", "Visión", "Tecnología");
+		crearItem("Cigar", "Cigarro clásico, útil para detectar láseres infrarrojos.", "Raciones", "Supervivencia");
+		crearItem("Cardboard Box", "Caja de cartón ideal para pasar desapercibido.", "Camuflaje", "Supervivencia");
+		crearItem("Calorie Mate", "Bloque nutritivo sabor chocolate que restaura estamina.", "Raciones", "Supervivencia");
+
+		// Préstamos
+		hacerPrestamo("Ivan Raikov", 5);
+		agregarItemAlPrestamo(0, "Codec");
+		agregarItemAlPrestamo(0, "Calorie Mate");
+
+		hacerPrestamo("Olga Gurlukovich", 10);
+		agregarItemAlPrestamo(1, "Thermal Goggles");
+		agregarItemAlPrestamo(1, "Cardboard Box");
 	}
 
 }
