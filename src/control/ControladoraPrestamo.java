@@ -155,7 +155,7 @@ public class ControladoraPrestamo {
 			return "El item no existe.";
 		}
 		return "Nombre: " + item.getNombre() + "\nDescripción: " + item.getDescripcion() + "\nCategorías: "
-				+ item.getCategoria() + "\nTipo: " + item.getTipo();
+				+ item.getCategoria().getTema() + "\nTipo: " + item.getTipo().getNombre();
 	}
 	
 	public boolean crearPerosna(String nombre, String telefono, String email) {
@@ -327,8 +327,8 @@ public class ControladoraPrestamo {
 		return new java.util.ArrayList<>(personas.values());
 	}
 	
-	public List<Item> getListadoItems() {
-		return new java.util.ArrayList<>(items.values());
+	public List<String> getListadoItems() {
+		return new java.util.ArrayList<>(items.keySet());
 	}
 	
 	public List<String> getListadoCategorias() {
