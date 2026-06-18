@@ -7,10 +7,29 @@ import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import java.awt.GridLayout;
+import java.awt.CardLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import javax.swing.JTextField;
+
+import control.ControladoraPrestamo;
+import logica.Categoria;
+import logica.Tipo;
+
+import javax.swing.JComboBox;
 
 public class Principal {
 
+	private ControladoraPrestamo control;
+	
 	private JFrame frameControlPrestamos;
+	private JTextField textFieldNombre;
+	private JTextField textFieldDescripcion;
+	private JComboBox comboBoxCategoria;
+	private JComboBox comboBoxTipo;
+	
 
 	/**
 	 * Launch the application.
@@ -32,7 +51,11 @@ public class Principal {
 	 * Create the application.
 	 */
 	public Principal() {
+		control = ControladoraPrestamo.getInstancia();
+		
 		initialize();
+		
+		cargarDesplegables(); // Cargar los datos desplegables al iniciar la aplicación
 	}
 
 	/**
@@ -66,6 +89,42 @@ public class Principal {
 		
 		JPanel panelCrearItem = new JPanel();
 		tabbedPaneItems.addTab("Crear", null, panelCrearItem, null);
+		panelCrearItem.setLayout(null);
+		
+		JLabel lblNombre = new JLabel("Nombre:");
+		lblNombre.setBounds(10, 11, 46, 14);
+		panelCrearItem.add(lblNombre);
+		
+		textFieldNombre = new JTextField();
+		textFieldNombre.setBounds(76, 8, 516, 20);
+		panelCrearItem.add(textFieldNombre);
+		textFieldNombre.setColumns(10);
+		
+		JLabel lblDescripcion = new JLabel("Descripción:");
+		lblDescripcion.setBounds(10, 44, 63, 14);
+		panelCrearItem.add(lblDescripcion);
+		
+		textFieldDescripcion = new JTextField();
+		textFieldDescripcion.setColumns(10);
+		textFieldDescripcion.setBounds(76, 41, 516, 20);
+		panelCrearItem.add(textFieldDescripcion);
+		
+		JLabel lblCategoria = new JLabel("Categoría:");
+		lblCategoria.setBounds(10, 77, 63, 14);
+		panelCrearItem.add(lblCategoria);
+		
+		JLabel lblTipo = new JLabel("Tipo:");
+		lblTipo.setBounds(10, 112, 63, 14);
+		panelCrearItem.add(lblTipo);
+		
+		comboBoxCategoria = new JComboBox();
+		comboBoxCategoria.setBounds(76, 73, 229, 22);
+		panelCrearItem.add(comboBoxCategoria);
+		
+		comboBoxTipo = new JComboBox();
+		comboBoxTipo.setEditable(true);
+		comboBoxTipo.setBounds(76, 108, 229, 22);
+		panelCrearItem.add(comboBoxTipo);
 		
 		JPanel panelModificarItem = new JPanel();
 		tabbedPaneItems.addTab("Modificar", null, panelModificarItem, null);
@@ -88,5 +147,15 @@ public class Principal {
 		JPanel panelReportes = new JPanel();
 		tabbedPane.addTab("Reportes", null, panelReportes, null);
 	}
+	
+	// Carga categorías y tipos para mostrarlos en el menú desplegable
+	private void cargarDesplegables() {
+		for (String cat : control.getListadoCategorias()) {
+			comboBoxCategoria.addItem(cat);
+		}
 
+		for (String tipo : control.getListadoTipos()) {
+			comboBoxTipo.addItem(tipo);
+		}
+	}
 }

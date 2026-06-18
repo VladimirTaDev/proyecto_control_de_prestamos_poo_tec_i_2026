@@ -331,12 +331,12 @@ public class ControladoraPrestamo {
 		return new java.util.ArrayList<>(items.values());
 	}
 	
-	public List<Categoria> getListadoCategorias() {
-		return new java.util.ArrayList<>(categorias.values());
+	public List<String> getListadoCategorias() {
+		return new java.util.ArrayList<>(categorias.keySet());
 	}
 	
-	public List<Tipo> getListadoTipos() {
-		return new java.util.ArrayList<>(tipos.values());
+	public List<String> getListadoTipos() {
+		return new java.util.ArrayList<>(tipos.keySet());
 	}
 	
 	// Listado de prestamos para buscar por índice
