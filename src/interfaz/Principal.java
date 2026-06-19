@@ -147,10 +147,20 @@ public class Principal {
 		panelCrearPersona.add(textFieldPersonaEmail);
 		
 		JButton btnCrearPersona = new JButton("Crear");
+		btnCrearPersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				crearPersona();
+			}
+		});
 		btnCrearPersona.setBounds(41, 168, 89, 23);
 		panelCrearPersona.add(btnCrearPersona);
 		
 		JButton btnPersonaLimpiar = new JButton("Limpiar");
+		btnPersonaLimpiar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiarCamposCrearPersona();
+			}
+		});
 		btnPersonaLimpiar.setBounds(181, 168, 89, 23);
 		panelCrearPersona.add(btnPersonaLimpiar);
 		
@@ -163,6 +173,11 @@ public class Principal {
 		panelModificarPersona.add(lblSeleccionarModificarPersona);
 		
 		comboBoxPersonasPModificar = new JComboBox();
+		comboBoxPersonasPModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cargarCamposModificarPersona();
+			}
+		});
 		comboBoxPersonasPModificar.setBounds(86, 11, 400, 22);
 		panelModificarPersona.add(comboBoxPersonasPModificar);
 		
@@ -189,6 +204,12 @@ public class Principal {
 		panelModificarPersona.add(btnModificarPersona);
 		
 		btnPersonaLimpiarModificar = new JButton("Limpiar");
+		btnPersonaLimpiarModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiarCamposModificarPersona();
+			}
+		});
+		
 		btnPersonaLimpiarModificar.setBounds(181, 168, 89, 23);
 		panelModificarPersona.add(btnPersonaLimpiarModificar);
 		
@@ -218,6 +239,11 @@ public class Principal {
 		panelConsultarPersona.add(lblConsultarPersona);
 		
 		comboBoxPersonas = new JComboBox();
+		comboBoxPersonas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				consultarPersona();
+			}
+		});
 		comboBoxPersonas.setBounds(82, 7, 400, 22);
 		panelConsultarPersona.add(comboBoxPersonas);
 		
@@ -443,6 +469,9 @@ public class Principal {
 		if (comboBoxItemsPModificar != null) comboBoxItemsPModificar.removeAllItems();
 		if (comboBoxCategoriaModificar != null) comboBoxCategoriaModificar.removeAllItems();
 		if (comboBoxTipoModificar != null) comboBoxTipoModificar.removeAllItems();
+		if (comboBoxPersonasPModificar != null) comboBoxPersonasPModificar.removeAllItems();
+		if (comboBoxPersonasPBorrar != null) comboBoxPersonasPBorrar.removeAllItems();
+		if (comboBoxPersonas != null) comboBoxPersonas.removeAllItems();
 
 		// Popular desplegables
 		for (String cat : control.getListadoCategorias()) {
@@ -471,6 +500,18 @@ public class Principal {
 		
 		for (String tipo : control.getListadoTipos()) {
 			comboBoxTipoModificar.addItem(tipo);
+		}
+		
+		for (String persona : control.getListadoPersonas()) {
+			comboBoxPersonasPModificar.addItem(persona);
+		}
+		
+		for (String persona : control.getListadoPersonas()) {
+			comboBoxPersonasPBorrar.addItem(persona);
+		}
+		
+		for (String persona : control.getListadoPersonas()) {
+			comboBoxPersonas.addItem(persona);
 		}
 	}
 	
@@ -576,5 +617,58 @@ public class Principal {
 	private void operacionRealizadaCorrectamente() {
 		JOptionPane.showMessageDialog(frameControlPrestamos, "Operación realizada correctamente.",
 				"Éxito", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	private void crearPersona() {
+		String nombre = textFieldPersonaNombre.getText();
+		String telefono = textFieldPersonaTelefono.getText();
+		String email = textFieldPersonaEmail.getText();
+		
+		if (nombre.isEmpty() || email.isEmpty() || telefono.isEmpty()) {
+			JOptionPane.showMessageDialog(frameControlPrestamos, "Ningún campo puede estar vacíos.",
+					"Error al crear persona", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		control.crearPerosna(nombre, telefono, email);
+		
+		cargarDesplegables(); // Actualizar desplegables
+		limpiarCamposCrearPersona();
+		operacionRealizadaCorrectamente(); // Mensaje satisfactorio
+	}
+	
+	private void limpiarCamposCrearPersona() {
+		textFieldPersonaNombre.setText("");
+		textFieldPersonaTelefono.setText("");
+		textFieldPersonaEmail.setText("");
+	}
+	
+	private void consultarPersona() {
+		String personaSeleccionada = (String) comboBoxPersonas.getSelectedItem();
+		if (personaSeleccionada == null)
+			return;
+		
+		String detallePersona = control.consultarPersona(personaSeleccionada);
+		textAreaConsultarPersonas.setText(detallePersona);
+	}
+	
+	private void limpiarCamposModificarPersona() {
+		textFieldTelefonoPersonaModificar.setText("");
+		textFieldEmailPersonaModificar.setText("");
+		comboBoxPersonasPModificar.setSelectedIndex(0);
+	}
+	
+	private void cargarCamposModificarPersona() {
+		String personaSeleccionada = (String) comboBoxPersonasPModificar.getSelectedItem();
+		if (personaSeleccionada == null)
+			return;
+
+		Map<String, String> elementos = control.getDetallePersona(personaSeleccionada);
+
+		if (elementos != null) {
+			textFieldTelefonoPersonaModificar.setText(elementos.get("telefono"));
+			textFieldEmailPersonaModificar.setText(elementos.get("email"));
+		}
+		
 	}
 }

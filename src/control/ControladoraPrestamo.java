@@ -52,6 +52,23 @@ public class ControladoraPrestamo {
 		return datos;
 	}
 	
+	// Retorna detalles de persona empaquetados
+	public Map<String, String> getDetallePersona(String nombrePersona) {
+		Persona persona = personas.get(nombrePersona);
+
+		if (persona == null) {
+			return null;
+		}
+
+		Map<String, String> datos = new java.util.TreeMap<>();
+
+		datos.put("nombre", persona.getNombre());
+		datos.put("telefono", persona.getTelefono());
+		datos.put("email", persona.getEmail());
+
+		return datos;
+	}
+	
 	public boolean crearItem(String nombre, String descripcion, String nombreCategoria, String nombreTipo) {
 		if (items.containsKey(nombre)) {
 			return false; // El item ya existe
@@ -341,8 +358,8 @@ public class ControladoraPrestamo {
 	}
 	
 	// Métodos para obtener listados de personas, items, categorías y tipos
-	public List<Persona> getListadoPersonas() {
-		return new java.util.ArrayList<>(personas.values());
+	public List<String> getListadoPersonas() {
+		return new java.util.ArrayList<>(personas.keySet());
 	}
 	
 	public List<String> getListadoItems() {
