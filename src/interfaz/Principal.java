@@ -94,6 +94,7 @@ public class Principal {
 	 */
 	private void initialize() {
 		frameControlPrestamos = new JFrame();
+		frameControlPrestamos.setResizable(false);
 		frameControlPrestamos.setTitle("Control De Prestamos");
 		frameControlPrestamos.setBounds(100, 100, 650, 350);
 		frameControlPrestamos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -200,6 +201,11 @@ public class Principal {
 		panelModificarPersona.add(textFieldEmailPersonaModificar);
 		
 		btnModificarPersona = new JButton("Modificar");
+		btnModificarPersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modificarPersona();
+			}
+		});
 		btnModificarPersona.setBounds(41, 168, 89, 23);
 		panelModificarPersona.add(btnModificarPersona);
 		
@@ -226,6 +232,11 @@ public class Principal {
 		panelBorrarPersona.add(comboBoxPersonasPBorrar);
 		
 		JButton btnBorrarPersona = new JButton("Borrar");
+		btnBorrarPersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				borrarPersona();
+			}
+		});
 		btnBorrarPersona.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		btnBorrarPersona.setBounds(224, 62, 127, 53);
 		panelBorrarPersona.add(btnBorrarPersona);
@@ -669,6 +680,39 @@ public class Principal {
 			textFieldTelefonoPersonaModificar.setText(elementos.get("telefono"));
 			textFieldEmailPersonaModificar.setText(elementos.get("email"));
 		}
+	}
+	
+	private void modificarPersona() {
+		String personaSeleccionada = (String) comboBoxPersonasPModificar.getSelectedItem();
+		if (personaSeleccionada == null)
+			return;
+
+		String nuevoTelefono = textFieldTelefonoPersonaModificar.getText();
+		String nuevoEmail = textFieldEmailPersonaModificar.getText();
+
+		if (nuevoTelefono.isEmpty() || nuevoEmail.isEmpty()) {
+			JOptionPane.showMessageDialog(frameControlPrestamos, "Ningún campo puede estar vacío.",
+					"Error al modificar persona", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		control.modificarPersona(personaSeleccionada, nuevoTelefono, nuevoEmail);
+		cargarDesplegables(); // Actualizar desplegables
+		operacionRealizadaCorrectamente(); // Mensaje satisfactorio
+	}
+	
+	private void borrarPersona() {
+		String personaSeleccionada = (String) comboBoxPersonasPBorrar.getSelectedItem();
+
+		int confirmacion = JOptionPane.showConfirmDialog(frameControlPrestamos,
+				"¿Seguro que quiere borrar \"" + personaSeleccionada + "\"?", "Confirmar borrado",
+				JOptionPane.YES_NO_OPTION);
+
+		if (confirmacion == JOptionPane.YES_OPTION) {
+			control.borrarPersona(personaSeleccionada);
+			cargarDesplegables(); // Actualizar desplegables
+		}
 		
+		operacionRealizadaCorrectamente(); // Mensaje satisfactorio
 	}
 }
