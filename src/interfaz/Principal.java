@@ -49,6 +49,18 @@ public class Principal {
 	private JButton btnModificarItem;
 	private JButton btnItemLimpiarModificar;
 	
+	private JTextField textFieldPersonaNombre;
+	private JTextField textFieldPersonaTelefono;
+	private JTextField textFieldPersonaEmail;
+	private JComboBox comboBoxPersonasPModificar;
+	private JTextField textFieldTelefonoPersonaModificar;
+	private JTextField textFieldEmailPersonaModificar;
+	private JButton btnModificarPersona;
+	private JButton btnPersonaLimpiarModificar;
+	private JComboBox comboBoxPersonasPBorrar;
+	private JComboBox comboBoxPersonas;
+	private JTextArea textAreaConsultarPersonas;
+	
 
 	/**
 	 * Launch the application.
@@ -98,6 +110,132 @@ public class Principal {
 		
 		JPanel panelPersonas = new JPanel();
 		tabbedPaneAdministracion.addTab("Personas", null, panelPersonas, null);
+		panelPersonas.setLayout(new BoxLayout(panelPersonas, BoxLayout.X_AXIS));
+		
+		JTabbedPane tabbedPanePersonas = new JTabbedPane(JTabbedPane.RIGHT);
+		panelPersonas.add(tabbedPanePersonas);
+		
+		JPanel panelCrearPersona = new JPanel();
+		tabbedPanePersonas.addTab("Crear", null, panelCrearPersona, null);
+		panelCrearPersona.setLayout(null);
+		
+		JLabel lblPersonaNombre = new JLabel("Nombre:");
+		lblPersonaNombre.setBounds(10, 11, 76, 14);
+		panelCrearPersona.add(lblPersonaNombre);
+		
+		textFieldPersonaNombre = new JTextField();
+		textFieldPersonaNombre.setBounds(86, 8, 440, 20);
+		panelCrearPersona.add(textFieldPersonaNombre);
+		textFieldPersonaNombre.setColumns(10);
+		
+		JLabel lblPersonaTelefono = new JLabel("Teléfono:");
+		lblPersonaTelefono.setBounds(10, 44, 76, 14);
+		panelCrearPersona.add(lblPersonaTelefono);
+		
+		textFieldPersonaTelefono = new JTextField();
+		textFieldPersonaTelefono.setColumns(10);
+		textFieldPersonaTelefono.setBounds(86, 41, 440, 20);
+		panelCrearPersona.add(textFieldPersonaTelefono);
+		
+		JLabel lblPersonaEmail = new JLabel("Email:");
+		lblPersonaEmail.setBounds(10, 77, 76, 14);
+		panelCrearPersona.add(lblPersonaEmail);
+		
+		textFieldPersonaEmail = new JTextField();
+		textFieldPersonaEmail.setColumns(10);
+		textFieldPersonaEmail.setBounds(86, 74, 440, 20);
+		panelCrearPersona.add(textFieldPersonaEmail);
+		
+		JButton btnCrearPersona = new JButton("Crear");
+		btnCrearPersona.setBounds(41, 168, 89, 23);
+		panelCrearPersona.add(btnCrearPersona);
+		
+		JButton btnPersonaLimpiar = new JButton("Limpiar");
+		btnPersonaLimpiar.setBounds(181, 168, 89, 23);
+		panelCrearPersona.add(btnPersonaLimpiar);
+		
+		JPanel panelModificarPersona = new JPanel();
+		panelModificarPersona.setLayout(null);
+		tabbedPanePersonas.addTab("Modificar", null, panelModificarPersona, null);
+		
+		JLabel lblSeleccionarModificarPersona = new JLabel("Seleccionar:");
+		lblSeleccionarModificarPersona.setBounds(10, 11, 76, 21);
+		panelModificarPersona.add(lblSeleccionarModificarPersona);
+		
+		comboBoxPersonasPModificar = new JComboBox();
+		comboBoxPersonasPModificar.setBounds(86, 11, 400, 22);
+		panelModificarPersona.add(comboBoxPersonasPModificar);
+		
+		JLabel lblTelefonoModificar = new JLabel("Teléfono:");
+		lblTelefonoModificar.setBounds(10, 44, 76, 14);
+		panelModificarPersona.add(lblTelefonoModificar);
+		
+		textFieldTelefonoPersonaModificar = new JTextField();
+		textFieldTelefonoPersonaModificar.setColumns(10);
+		textFieldTelefonoPersonaModificar.setBounds(86, 41, 440, 20);
+		panelModificarPersona.add(textFieldTelefonoPersonaModificar);
+		
+		JLabel lblEmailPersonaModificar = new JLabel("Email:");
+		lblEmailPersonaModificar.setBounds(10, 77, 76, 14);
+		panelModificarPersona.add(lblEmailPersonaModificar);
+		
+		textFieldEmailPersonaModificar = new JTextField();
+		textFieldEmailPersonaModificar.setColumns(10);
+		textFieldEmailPersonaModificar.setBounds(86, 74, 440, 20);
+		panelModificarPersona.add(textFieldEmailPersonaModificar);
+		
+		btnModificarPersona = new JButton("Modificar");
+		btnModificarPersona.setBounds(41, 168, 89, 23);
+		panelModificarPersona.add(btnModificarPersona);
+		
+		btnPersonaLimpiarModificar = new JButton("Limpiar");
+		btnPersonaLimpiarModificar.setBounds(181, 168, 89, 23);
+		panelModificarPersona.add(btnPersonaLimpiarModificar);
+		
+		JPanel panelBorrarPersona = new JPanel();
+		tabbedPanePersonas.addTab("Borrar", null, panelBorrarPersona, null);
+		panelBorrarPersona.setLayout(null);
+		
+		JLabel lblSeleccionarPersonaBorrar = new JLabel("Seleccionar:");
+		lblSeleccionarPersonaBorrar.setBounds(10, 11, 74, 21);
+		panelBorrarPersona.add(lblSeleccionarPersonaBorrar);
+		
+		comboBoxPersonasPBorrar = new JComboBox();
+		comboBoxPersonasPBorrar.setBounds(91, 11, 391, 22);
+		panelBorrarPersona.add(comboBoxPersonasPBorrar);
+		
+		JButton btnBorrarPersona = new JButton("Borrar");
+		btnBorrarPersona.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		btnBorrarPersona.setBounds(224, 62, 127, 53);
+		panelBorrarPersona.add(btnBorrarPersona);
+		
+		JPanel panelConsultarPersona = new JPanel();
+		tabbedPanePersonas.addTab("Consultar", null, panelConsultarPersona, null);
+		panelConsultarPersona.setLayout(null);
+		
+		JLabel lblConsultarPersona = new JLabel("Consultar:");
+		lblConsultarPersona.setBounds(10, 11, 62, 14);
+		panelConsultarPersona.add(lblConsultarPersona);
+		
+		comboBoxPersonas = new JComboBox();
+		comboBoxPersonas.setBounds(82, 7, 400, 22);
+		panelConsultarPersona.add(comboBoxPersonas);
+		
+		JScrollPane scrollPaneConsultarPersonas = new JScrollPane();
+		scrollPaneConsultarPersonas.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPaneConsultarPersonas.setBounds(10, 60, 520, 179);
+		panelConsultarPersona.add(scrollPaneConsultarPersonas);
+		
+		textAreaConsultarPersonas = new JTextArea();
+		textAreaConsultarPersonas.setWrapStyleWord(true);
+		textAreaConsultarPersonas.setLineWrap(true);
+		textAreaConsultarPersonas.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		textAreaConsultarPersonas.setEditable(false);
+		scrollPaneConsultarPersonas.setViewportView(textAreaConsultarPersonas);
+		
+		JLabel lblDatosDeLaPersona = new JLabel("Datos De La Persona:");
+		lblDatosDeLaPersona.setBounds(10, 36, 130, 14);
+		panelConsultarPersona.add(lblDatosDeLaPersona);
 		
 		JPanel panelItems = new JPanel();
 		tabbedPaneAdministracion.addTab("Ítems", null, panelItems, null);
@@ -191,7 +329,7 @@ public class Principal {
 		comboBoxTipoModificar.setBounds(86, 108, 219, 22);
 		panelModificarItem.add(comboBoxTipoModificar);
 		
-		btnModificarItem = new JButton("Modificar");
+		btnModificarItem = new JButton("Crear");
 		btnModificarItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificarItem();
@@ -279,9 +417,11 @@ public class Principal {
 		
 		JPanel panelCategorias = new JPanel();
 		tabbedPaneAdministracion.addTab("Categorías", null, panelCategorias, null);
+		panelCategorias.setLayout(new BoxLayout(panelCategorias, BoxLayout.X_AXIS));
 		
 		JPanel panelTipos = new JPanel();
 		tabbedPaneAdministracion.addTab("Tipos", null, panelTipos, null);
+		panelTipos.setLayout(new BoxLayout(panelTipos, BoxLayout.X_AXIS));
 		
 		JPanel panelPrestamos = new JPanel();
 		tabbedPane.addTab("Préstamos", null, panelPrestamos, null);
