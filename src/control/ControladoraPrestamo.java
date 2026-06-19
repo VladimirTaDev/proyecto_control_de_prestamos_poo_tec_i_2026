@@ -34,6 +34,24 @@ public class ControladoraPrestamo {
 		return instancia;
 	}
 	
+	// Retorna detalles del item empaquetados
+	public Map<String, String> getDetalleItem(String nombreItem) {
+		Item item = items.get(nombreItem);
+
+		if (item == null) {
+			return null;
+		}
+
+		Map<String, String> datos = new java.util.TreeMap<>();
+
+		datos.put("nombre", item.getNombre());
+		datos.put("descripcion", item.getDescripcion());
+		datos.put("tema", item.getCategoria().getTema());
+		datos.put("formato", item.getTipo().getFormato());
+
+		return datos;
+	}
+	
 	public boolean crearItem(String nombre, String descripcion, String nombreCategoria, String nombreTipo) {
 		if (items.containsKey(nombre)) {
 			return false; // El item ya existe

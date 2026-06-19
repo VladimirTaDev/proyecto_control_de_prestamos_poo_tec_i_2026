@@ -25,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 
@@ -39,6 +40,13 @@ public class Principal {
 	private JComboBox comboBoxTipo;
 	private JComboBox comboBoxItems;
 	private JTextArea textAreaConsultarItems;
+	private JComboBox comboBoxItemsPBorrar;
+	private JTextField textFieldDescripcionItemModificar;
+	private JComboBox comboBoxItemsPModificar;
+	private JComboBox comboBoxCategoriaModificar;
+	private JComboBox comboBoxTipoModificar;
+	private JButton btnModificarItem;
+	private JButton btnItemLimpiarModificar;
 	
 
 	/**
@@ -102,37 +110,37 @@ public class Principal {
 		panelCrearItem.setLayout(null);
 		
 		JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setBounds(10, 11, 46, 14);
+		lblNombre.setBounds(10, 11, 76, 14);
 		panelCrearItem.add(lblNombre);
 		
 		textFieldNombre = new JTextField();
-		textFieldNombre.setBounds(76, 8, 499, 20);
+		textFieldNombre.setBounds(86, 8, 489, 20);
 		panelCrearItem.add(textFieldNombre);
 		textFieldNombre.setColumns(10);
 		
 		JLabel lblDescripcion = new JLabel("Descripción:");
-		lblDescripcion.setBounds(10, 44, 63, 14);
+		lblDescripcion.setBounds(10, 44, 76, 14);
 		panelCrearItem.add(lblDescripcion);
 		
 		textFieldDescripcion = new JTextField();
 		textFieldDescripcion.setColumns(10);
-		textFieldDescripcion.setBounds(76, 41, 499, 20);
+		textFieldDescripcion.setBounds(86, 41, 489, 20);
 		panelCrearItem.add(textFieldDescripcion);
 		
 		JLabel lblCategoria = new JLabel("Categoría:");
-		lblCategoria.setBounds(10, 77, 63, 14);
+		lblCategoria.setBounds(10, 77, 76, 14);
 		panelCrearItem.add(lblCategoria);
 		
 		JLabel lblTipo = new JLabel("Tipo:");
-		lblTipo.setBounds(10, 112, 63, 14);
+		lblTipo.setBounds(10, 112, 76, 14);
 		panelCrearItem.add(lblTipo);
 		
 		comboBoxCategoria = new JComboBox();
-		comboBoxCategoria.setBounds(76, 73, 229, 22);
+		comboBoxCategoria.setBounds(86, 73, 219, 22);
 		panelCrearItem.add(comboBoxCategoria);
 		
 		comboBoxTipo = new JComboBox();
-		comboBoxTipo.setBounds(76, 108, 229, 22);
+		comboBoxTipo.setBounds(86, 108, 219, 22);
 		panelCrearItem.add(comboBoxTipo);
 		
 		JButton btnCrearItem = new JButton("Crear");
@@ -154,10 +162,76 @@ public class Principal {
 		panelCrearItem.add(btnItemLimpiar);
 		
 		JPanel panelModificarItem = new JPanel();
+		panelModificarItem.setLayout(null);
 		tabbedPaneItems.addTab("Modificar", null, panelModificarItem, null);
+		
+		JLabel lblDescripcionModificar = new JLabel("Descripción:");
+		lblDescripcionModificar.setBounds(10, 44, 76, 14);
+		panelModificarItem.add(lblDescripcionModificar);
+		
+		textFieldDescripcionItemModificar = new JTextField();
+		textFieldDescripcionItemModificar.setColumns(10);
+		textFieldDescripcionItemModificar.setBounds(86, 41, 489, 20);
+		panelModificarItem.add(textFieldDescripcionItemModificar);
+		
+		JLabel lblCategoriaItemModificar = new JLabel("Categoría:");
+		lblCategoriaItemModificar.setBounds(10, 77, 76, 14);
+		panelModificarItem.add(lblCategoriaItemModificar);
+		
+		JLabel lblTipoModificar = new JLabel("Tipo:");
+		lblTipoModificar.setBounds(10, 112, 76, 14);
+		panelModificarItem.add(lblTipoModificar);
+		
+		comboBoxCategoriaModificar = new JComboBox();
+		comboBoxCategoriaModificar.setBounds(86, 73, 219, 22);
+		panelModificarItem.add(comboBoxCategoriaModificar);
+		
+		comboBoxTipoModificar = new JComboBox();
+		comboBoxTipoModificar.setBounds(86, 108, 219, 22);
+		panelModificarItem.add(comboBoxTipoModificar);
+		
+		btnModificarItem = new JButton("Crear");
+		btnModificarItem.setBounds(41, 168, 89, 23);
+		panelModificarItem.add(btnModificarItem);
+		
+		btnItemLimpiarModificar = new JButton("Limpiar");
+		btnItemLimpiarModificar.setBounds(181, 168, 89, 23);
+		panelModificarItem.add(btnItemLimpiarModificar);
+		
+		JLabel lblSeleccionarModificarItem = new JLabel("Seleccionar:");
+		lblSeleccionarModificarItem.setBounds(10, 11, 76, 21);
+		panelModificarItem.add(lblSeleccionarModificarItem);
+		
+		comboBoxItemsPModificar = new JComboBox();
+		comboBoxItemsPModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cargarCamposModificarItem();
+			}
+		});
+		comboBoxItemsPModificar.setBounds(86, 11, 411, 22);
+		panelModificarItem.add(comboBoxItemsPModificar);
 		
 		JPanel panelBorrarItem = new JPanel();
 		tabbedPaneItems.addTab("Borrar", null, panelBorrarItem, null);
+		panelBorrarItem.setLayout(null);
+		
+		JLabel lblSeleccionarItem = new JLabel("Seleccionar:");
+		lblSeleccionarItem.setBounds(10, 11, 62, 21);
+		panelBorrarItem.add(lblSeleccionarItem);
+		
+		comboBoxItemsPBorrar = new JComboBox();
+		comboBoxItemsPBorrar.setBounds(82, 11, 415, 22);
+		panelBorrarItem.add(comboBoxItemsPBorrar);
+		
+		JButton btnBorrarItem = new JButton("Borrar");
+		btnBorrarItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				borrarItem();
+			}
+		});
+		btnBorrarItem.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		btnBorrarItem.setBounds(224, 62, 127, 53);
+		panelBorrarItem.add(btnBorrarItem);
 		
 		JPanel panelConsultarItem = new JPanel();
 		tabbedPaneItems.addTab("Consultar", null, panelConsultarItem, null);
@@ -211,7 +285,12 @@ public class Principal {
 		if (comboBoxCategoria != null) comboBoxCategoria.removeAllItems();
 		if (comboBoxTipo != null) comboBoxTipo.removeAllItems();
 		if (comboBoxItems != null) comboBoxItems.removeAllItems();
+		if (comboBoxItemsPBorrar != null) comboBoxItemsPBorrar.removeAllItems();
+		if (comboBoxItemsPModificar != null) comboBoxItemsPModificar.removeAllItems();
+		if (comboBoxCategoriaModificar != null) comboBoxCategoriaModificar.removeAllItems();
+		if (comboBoxTipoModificar != null) comboBoxTipoModificar.removeAllItems();
 
+		// Popular desplegables
 		for (String cat : control.getListadoCategorias()) {
 			comboBoxCategoria.addItem(cat);
 		}
@@ -222,6 +301,22 @@ public class Principal {
 		
 		for (String item : control.getListadoItems()) {
 			comboBoxItems.addItem(item);
+		}
+		
+		for (String item : control.getListadoItems()) {
+			comboBoxItemsPBorrar.addItem(item);
+		}
+		
+		for (String item : control.getListadoItems()) {
+			comboBoxItemsPModificar.addItem(item);
+		}
+		
+		for (String cat : control.getListadoCategorias()) {
+			comboBoxCategoriaModificar.addItem(cat);
+		}
+		
+		for (String tipo : control.getListadoTipos()) {
+			comboBoxTipoModificar.addItem(tipo);
 		}
 	}
 	
@@ -259,5 +354,34 @@ public class Principal {
 		textFieldDescripcion.setText("");
 		comboBoxCategoria.setSelectedIndex(0);
 		comboBoxTipo.setSelectedIndex(0);
+	}
+	
+	private void borrarItem() {
+		String itemSeleccionado = (String) comboBoxItemsPBorrar.getSelectedItem();
+
+		int confirmacion = JOptionPane.showConfirmDialog(frameControlPrestamos,
+				"¿Seguro que quiere borrar \"" + itemSeleccionado + "\"?", "Confirmar borrado",
+				JOptionPane.YES_NO_OPTION);
+
+		if (confirmacion == JOptionPane.YES_OPTION) {
+			control.borrarItem(itemSeleccionado);
+			// Actualizar el desplegables
+			cargarDesplegables();
+		}
+	}
+	
+	private void cargarCamposModificarItem() {
+		String itemSeleccionado = (String) comboBoxItemsPModificar.getSelectedItem();
+		if (itemSeleccionado == null)
+			return;
+
+		// Rellenar los datos empaquetados
+		Map<String, String> elementos = control.getDetalleItem(itemSeleccionado);
+
+		if (elementos != null) {
+			textFieldDescripcionItemModificar.setText(elementos.get("descripcion"));
+			comboBoxCategoriaModificar.setSelectedItem(elementos.get("tema"));
+			comboBoxTipoModificar.setSelectedItem(elementos.get("formato"));
+		}
 	}
 }
