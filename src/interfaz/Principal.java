@@ -28,6 +28,7 @@ import java.awt.event.ActionListener;
 import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
+import javax.swing.ScrollPaneConstants;
 
 public class Principal {
 
@@ -82,7 +83,7 @@ public class Principal {
 	private void initialize() {
 		frameControlPrestamos = new JFrame();
 		frameControlPrestamos.setTitle("Control De Prestamos");
-		frameControlPrestamos.setBounds(100, 100, 695, 500);
+		frameControlPrestamos.setBounds(100, 100, 650, 350);
 		frameControlPrestamos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -114,7 +115,7 @@ public class Principal {
 		panelCrearItem.add(lblNombre);
 		
 		textFieldNombre = new JTextField();
-		textFieldNombre.setBounds(86, 8, 489, 20);
+		textFieldNombre.setBounds(86, 8, 440, 20);
 		panelCrearItem.add(textFieldNombre);
 		textFieldNombre.setColumns(10);
 		
@@ -124,7 +125,7 @@ public class Principal {
 		
 		textFieldDescripcion = new JTextField();
 		textFieldDescripcion.setColumns(10);
-		textFieldDescripcion.setBounds(86, 41, 489, 20);
+		textFieldDescripcion.setBounds(86, 41, 440, 20);
 		panelCrearItem.add(textFieldDescripcion);
 		
 		JLabel lblCategoria = new JLabel("Categoría:");
@@ -171,7 +172,7 @@ public class Principal {
 		
 		textFieldDescripcionItemModificar = new JTextField();
 		textFieldDescripcionItemModificar.setColumns(10);
-		textFieldDescripcionItemModificar.setBounds(86, 41, 489, 20);
+		textFieldDescripcionItemModificar.setBounds(86, 41, 440, 20);
 		panelModificarItem.add(textFieldDescripcionItemModificar);
 		
 		JLabel lblCategoriaItemModificar = new JLabel("Categoría:");
@@ -190,11 +191,21 @@ public class Principal {
 		comboBoxTipoModificar.setBounds(86, 108, 219, 22);
 		panelModificarItem.add(comboBoxTipoModificar);
 		
-		btnModificarItem = new JButton("Crear");
+		btnModificarItem = new JButton("Modificar");
+		btnModificarItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modificarItem();
+			}
+		});
 		btnModificarItem.setBounds(41, 168, 89, 23);
 		panelModificarItem.add(btnModificarItem);
 		
 		btnItemLimpiarModificar = new JButton("Limpiar");
+		btnItemLimpiarModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiarCamposModificarItem();
+			}
+		});
 		btnItemLimpiarModificar.setBounds(181, 168, 89, 23);
 		panelModificarItem.add(btnItemLimpiarModificar);
 		
@@ -208,7 +219,7 @@ public class Principal {
 				cargarCamposModificarItem();
 			}
 		});
-		comboBoxItemsPModificar.setBounds(86, 11, 411, 22);
+		comboBoxItemsPModificar.setBounds(86, 11, 400, 22);
 		panelModificarItem.add(comboBoxItemsPModificar);
 		
 		JPanel panelBorrarItem = new JPanel();
@@ -216,11 +227,11 @@ public class Principal {
 		panelBorrarItem.setLayout(null);
 		
 		JLabel lblSeleccionarItem = new JLabel("Seleccionar:");
-		lblSeleccionarItem.setBounds(10, 11, 62, 21);
+		lblSeleccionarItem.setBounds(10, 11, 74, 21);
 		panelBorrarItem.add(lblSeleccionarItem);
 		
 		comboBoxItemsPBorrar = new JComboBox();
-		comboBoxItemsPBorrar.setBounds(82, 11, 415, 22);
+		comboBoxItemsPBorrar.setBounds(91, 11, 391, 22);
 		panelBorrarItem.add(comboBoxItemsPBorrar);
 		
 		JButton btnBorrarItem = new JButton("Borrar");
@@ -247,14 +258,17 @@ public class Principal {
 				cargarDetalleItem((String) comboBoxItems.getSelectedItem(), textAreaConsultarItems);
 			}
 		});
-		comboBoxItems.setBounds(82, 7, 415, 22);
+		comboBoxItems.setBounds(82, 7, 400, 22);
 		panelConsultarItem.add(comboBoxItems);
 		
 		JScrollPane scrollPaneConsultarItems = new JScrollPane();
-		scrollPaneConsultarItems.setBounds(10, 60, 562, 329);
+		scrollPaneConsultarItems.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPaneConsultarItems.setBounds(10, 60, 520, 179);
 		panelConsultarItem.add(scrollPaneConsultarItems);
 		
 		textAreaConsultarItems = new JTextArea();
+		textAreaConsultarItems.setWrapStyleWord(true);
+		textAreaConsultarItems.setLineWrap(true);
 		textAreaConsultarItems.setFont(new Font("Monospaced", Font.PLAIN, 14));
 		textAreaConsultarItems.setEditable(false);
 		scrollPaneConsultarItems.setViewportView(textAreaConsultarItems);
@@ -347,6 +361,8 @@ public class Principal {
 		cargarDesplegables();
 		
 		limpiarCamposCrearItem();
+		
+		operacionRealizadaCorrectamente(); // Mensaje satisfactorio
 	}
 	
 	private void limpiarCamposCrearItem() {
@@ -355,7 +371,7 @@ public class Principal {
 		comboBoxCategoria.setSelectedIndex(0);
 		comboBoxTipo.setSelectedIndex(0);
 	}
-	
+		
 	private void borrarItem() {
 		String itemSeleccionado = (String) comboBoxItemsPBorrar.getSelectedItem();
 
@@ -368,6 +384,8 @@ public class Principal {
 			// Actualizar el desplegables
 			cargarDesplegables();
 		}
+		
+		operacionRealizadaCorrectamente(); // Mensaje satisfactorio
 	}
 	
 	private void cargarCamposModificarItem() {
@@ -383,5 +401,40 @@ public class Principal {
 			comboBoxCategoriaModificar.setSelectedItem(elementos.get("tema"));
 			comboBoxTipoModificar.setSelectedItem(elementos.get("formato"));
 		}
+	}
+	
+	private void limpiarCamposModificarItem() {
+		textFieldDescripcionItemModificar.setText("");
+		comboBoxCategoriaModificar.setSelectedIndex(0);
+		comboBoxTipoModificar.setSelectedIndex(0);
+		comboBoxItemsPModificar.setSelectedIndex(0);
+	}
+
+	private void modificarItem() {
+		String itemSeleccionado = (String) comboBoxItemsPModificar.getSelectedItem();
+		if (itemSeleccionado == null)
+			return;
+
+		String nuevaDescripcion = textFieldDescripcionItemModificar.getText();
+		String nuevaCategoria = (String) comboBoxCategoriaModificar.getSelectedItem();
+		String nuevoTipo = (String) comboBoxTipoModificar.getSelectedItem();
+
+		if (nuevaDescripcion.isEmpty()) {
+			JOptionPane.showMessageDialog(frameControlPrestamos, "La descripción no puede estar vacía.",
+					"Error al modificar ítem", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		control.modificarItem(itemSeleccionado, nuevaDescripcion, nuevaCategoria, nuevoTipo);
+
+		// Actualizar desplegables
+		cargarDesplegables();
+		
+		operacionRealizadaCorrectamente(); // Mensaje satisfactorio
+	}
+	
+	private void operacionRealizadaCorrectamente() {
+		JOptionPane.showMessageDialog(frameControlPrestamos, "Operación realizada correctamente.",
+				"Éxito", JOptionPane.INFORMATION_MESSAGE);
 	}
 }
