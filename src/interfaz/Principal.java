@@ -491,10 +491,20 @@ public class Principal {
 		textFieldNombreCategoria.setColumns(10);
 		
 		JButton btnCrearCategoria = new JButton("Crear");
+		btnCrearCategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				crearCategoria();
+			}
+		});
 		btnCrearCategoria.setBounds(41, 168, 89, 23);
 		panelCrearCategoria.add(btnCrearCategoria);
 		
 		JButton btnCategoriaLimpiar = new JButton("Limpiar");
+		btnCategoriaLimpiar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiarCamposCrearCategoria();
+			}
+		});
 		btnCategoriaLimpiar.setBounds(181, 168, 89, 23);
 		panelCrearCategoria.add(btnCategoriaLimpiar);
 		
@@ -512,10 +522,20 @@ public class Principal {
 		panelModificarCategoria.add(textFieldNombreCategoriaModificar);
 		
 		btnModificarCategoria = new JButton("Modificar");
+		btnModificarCategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modificarCategoria();
+			}
+		});
 		btnModificarCategoria.setBounds(41, 168, 89, 23);
 		panelModificarCategoria.add(btnModificarCategoria);
 		
 		btnCategoriaLimpiarModificar = new JButton("Limpiar");
+		btnCategoriaLimpiarModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cargarCamposModificarCategoria();
+			}
+		});
 		btnCategoriaLimpiarModificar.setBounds(181, 168, 89, 23);
 		panelModificarCategoria.add(btnCategoriaLimpiarModificar);
 		
@@ -524,6 +544,11 @@ public class Principal {
 		panelModificarCategoria.add(lblSeleccionarModificarCategoria);
 		
 		comboBoxCategoriasPModificar = new JComboBox();
+		comboBoxCategoriasPModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cargarCamposModificarCategoria();
+			}
+		});
 		comboBoxCategoriasPModificar.setBounds(86, 11, 400, 22);
 		panelModificarCategoria.add(comboBoxCategoriasPModificar);
 		
@@ -540,6 +565,11 @@ public class Principal {
 		panelBorrarCategoria.add(comboBoxCategoriasPBorrar);
 		
 		JButton btnBorrarCategoria = new JButton("Borrar");
+		btnBorrarCategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				borrarCategoria();
+			}
+		});
 		btnBorrarCategoria.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		btnBorrarCategoria.setBounds(224, 62, 127, 53);
 		panelBorrarCategoria.add(btnBorrarCategoria);
@@ -687,6 +717,7 @@ public class Principal {
 	// Carga desplegables para mostrarlos en el menú desplegable
 	private void cargarDesplegables() {
 		// Limpiar JComboBox
+		// Ítems
 		if (comboBoxCategoria != null) comboBoxCategoria.removeAllItems();
 		if (comboBoxTipo != null) comboBoxTipo.removeAllItems();
 		if (comboBoxItems != null) comboBoxItems.removeAllItems();
@@ -694,11 +725,21 @@ public class Principal {
 		if (comboBoxItemsPModificar != null) comboBoxItemsPModificar.removeAllItems();
 		if (comboBoxCategoriaModificar != null) comboBoxCategoriaModificar.removeAllItems();
 		if (comboBoxTipoModificar != null) comboBoxTipoModificar.removeAllItems();
+		// Personas
 		if (comboBoxPersonasPModificar != null) comboBoxPersonasPModificar.removeAllItems();
 		if (comboBoxPersonasPBorrar != null) comboBoxPersonasPBorrar.removeAllItems();
 		if (comboBoxPersonas != null) comboBoxPersonas.removeAllItems();
+		// Categorías
+		if (comboBoxCategoriasPModificar != null) comboBoxCategoriasPModificar.removeAllItems();
+		if (comboBoxCategoriasPBorrar != null) comboBoxCategoriasPBorrar.removeAllItems();
+		if (comboBoxCategorias != null) comboBoxCategorias.removeAllItems();
+		// Tipos
+		if (comboBoxTiposPModificar != null) comboBoxTiposPModificar.removeAllItems();
+		if (comboBoxTiposPBorrar != null) comboBoxTiposPBorrar.removeAllItems();
+		if (comboBoxTipos != null) comboBoxTipos.removeAllItems();
 
 		// Popular desplegables
+		// Ítems
 		for (String cat : control.getListadoCategorias()) {
 			comboBoxCategoria.addItem(cat);
 		}
@@ -727,6 +768,7 @@ public class Principal {
 			comboBoxTipoModificar.addItem(tipo);
 		}
 		
+		// Personas
 		for (String persona : control.getListadoPersonas()) {
 			comboBoxPersonasPModificar.addItem(persona);
 		}
@@ -738,8 +780,23 @@ public class Principal {
 		for (String persona : control.getListadoPersonas()) {
 			comboBoxPersonas.addItem(persona);
 		}
+		
+		// Categorías
+		for (String cat : control.getListadoCategorias()) {
+			comboBoxCategoriasPModificar.addItem(cat);
+			comboBoxCategoriasPBorrar.addItem(cat);
+			comboBoxCategorias.addItem(cat);
+		}
+		
+		// Tipos
+		for (String tipo : control.getListadoTipos()) {
+			comboBoxTiposPModificar.addItem(tipo);
+			comboBoxTiposPBorrar.addItem(tipo);
+			comboBoxTipos.addItem(tipo);
+		}
 	}
 	
+	// Items
 	private void cargarDetalleItem(String nombreItem, JTextArea textArea) {
 		if (nombreItem == null) {
 			return;
@@ -839,6 +896,7 @@ public class Principal {
 		operacionRealizadaCorrectamente(); // Mensaje satisfactorio
 	}
 	
+	// Personas
 	private void operacionRealizadaCorrectamente() {
 		JOptionPane.showMessageDialog(frameControlPrestamos, "Operación realizada correctamente.",
 				"Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -924,6 +982,68 @@ public class Principal {
 
 		if (confirmacion == JOptionPane.YES_OPTION) {
 			control.borrarPersona(personaSeleccionada);
+			cargarDesplegables(); // Actualizar desplegables
+		}
+		
+		operacionRealizadaCorrectamente(); // Mensaje satisfactorio
+	}
+	
+	// Categorías
+	private void crearCategoria() {
+		String nombre = textFieldNombreCategoria.getText();
+		
+		if (nombre.isEmpty()) {
+			JOptionPane.showMessageDialog(frameControlPrestamos, "El nombre no puede estar vacío.",
+					"Error al crear categoría", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		control.crearCategoria(nombre);
+		cargarDesplegables(); // Actualizar desplegables
+		limpiarCamposCrearCategoria();
+		operacionRealizadaCorrectamente(); // Mensaje satisfactorio
+	}
+	
+	private void limpiarCamposCrearCategoria() {
+		textFieldNombreCategoria.setText("");
+	}
+	
+	private void modificarCategoria() {
+		String categoriaSeleccionada = (String) comboBoxCategoriasPModificar.getSelectedItem();
+		if (categoriaSeleccionada == null)
+			return;
+
+		String nuevoNombre = textFieldNombreCategoriaModificar.getText();
+
+		if (nuevoNombre.isEmpty()) {
+			JOptionPane.showMessageDialog(frameControlPrestamos, "El nombre no puede estar vacío.",
+					"Error al modificar categoría", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		control.modificarCategoria(categoriaSeleccionada, nuevoNombre);
+		cargarDesplegables(); // Actualizar desplegables
+		cargarCamposModificarCategoria(); // Cargar el nuevo nombre
+		operacionRealizadaCorrectamente(); // Mensaje satisfactorio
+	}
+	
+	private void cargarCamposModificarCategoria() {
+		String categoriaSeleccionada = (String) comboBoxCategoriasPModificar.getSelectedItem();
+		if (categoriaSeleccionada == null)
+			return;
+
+		textFieldNombreCategoriaModificar.setText(categoriaSeleccionada);
+	}
+	
+	private void borrarCategoria() {
+		String categoriaSeleccionada = (String) comboBoxCategoriasPBorrar.getSelectedItem();
+
+		int confirmacion = JOptionPane.showConfirmDialog(frameControlPrestamos,
+				"¿Seguro que quiere borrar \"" + categoriaSeleccionada + "\"?", "Confirmar borrado",
+				JOptionPane.YES_NO_OPTION);
+
+		if (confirmacion == JOptionPane.YES_OPTION) {
+			control.borrarCategoria(categoriaSeleccionada);
 			cargarDesplegables(); // Actualizar desplegables
 		}
 		
