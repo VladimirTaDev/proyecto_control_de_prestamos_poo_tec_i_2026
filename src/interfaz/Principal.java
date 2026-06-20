@@ -61,6 +61,24 @@ public class Principal {
 	private JComboBox comboBoxPersonas;
 	private JTextArea textAreaConsultarPersonas;
 	
+	private JTextField textFieldNombreCategoria;
+	private JComboBox comboBoxCategoriasPModificar;
+	private JTextField textFieldNombreCategoriaModificar;
+	private JButton btnModificarCategoria;
+	private JButton btnCategoriaLimpiarModificar;
+	private JComboBox comboBoxCategoriasPBorrar;
+	private JComboBox comboBoxCategorias;
+	private JTextArea textAreaConsultarCategorias;
+	
+	private JTextField textFieldNombreTipo;
+	private JComboBox comboBoxTiposPModificar;
+	private JTextField textFieldNombreTipoModificar;
+	private JButton btnModificarTipo;
+	private JButton btnTipoLimpiarModificar;
+	private JComboBox comboBoxTiposPBorrar;
+	private JComboBox comboBoxTipos;
+	private JTextArea textAreaConsultarTipos;
+	
 
 	/**
 	 * Launch the application.
@@ -456,9 +474,205 @@ public class Principal {
 		tabbedPaneAdministracion.addTab("Categorías", null, panelCategorias, null);
 		panelCategorias.setLayout(new BoxLayout(panelCategorias, BoxLayout.X_AXIS));
 		
+		JTabbedPane tabbedPaneCategorias = new JTabbedPane(JTabbedPane.RIGHT);
+		panelCategorias.add(tabbedPaneCategorias);
+		
+		JPanel panelCrearCategoria = new JPanel();
+		tabbedPaneCategorias.addTab("Crear", null, panelCrearCategoria, null);
+		panelCrearCategoria.setLayout(null);
+		
+		JLabel lblNombreCategoria = new JLabel("Nombre:");
+		lblNombreCategoria.setBounds(10, 11, 76, 14);
+		panelCrearCategoria.add(lblNombreCategoria);
+		
+		textFieldNombreCategoria = new JTextField();
+		textFieldNombreCategoria.setBounds(86, 8, 440, 20);
+		panelCrearCategoria.add(textFieldNombreCategoria);
+		textFieldNombreCategoria.setColumns(10);
+		
+		JButton btnCrearCategoria = new JButton("Crear");
+		btnCrearCategoria.setBounds(41, 168, 89, 23);
+		panelCrearCategoria.add(btnCrearCategoria);
+		
+		JButton btnCategoriaLimpiar = new JButton("Limpiar");
+		btnCategoriaLimpiar.setBounds(181, 168, 89, 23);
+		panelCrearCategoria.add(btnCategoriaLimpiar);
+		
+		JPanel panelModificarCategoria = new JPanel();
+		panelModificarCategoria.setLayout(null);
+		tabbedPaneCategorias.addTab("Modificar", null, panelModificarCategoria, null);
+		
+		JLabel lblNombreCategoriaModificar = new JLabel("Nombre:");
+		lblNombreCategoriaModificar.setBounds(10, 44, 76, 14);
+		panelModificarCategoria.add(lblNombreCategoriaModificar);
+		
+		textFieldNombreCategoriaModificar = new JTextField();
+		textFieldNombreCategoriaModificar.setColumns(10);
+		textFieldNombreCategoriaModificar.setBounds(86, 41, 440, 20);
+		panelModificarCategoria.add(textFieldNombreCategoriaModificar);
+		
+		btnModificarCategoria = new JButton("Modificar");
+		btnModificarCategoria.setBounds(41, 168, 89, 23);
+		panelModificarCategoria.add(btnModificarCategoria);
+		
+		btnCategoriaLimpiarModificar = new JButton("Limpiar");
+		btnCategoriaLimpiarModificar.setBounds(181, 168, 89, 23);
+		panelModificarCategoria.add(btnCategoriaLimpiarModificar);
+		
+		JLabel lblSeleccionarModificarCategoria = new JLabel("Seleccionar:");
+		lblSeleccionarModificarCategoria.setBounds(10, 11, 76, 21);
+		panelModificarCategoria.add(lblSeleccionarModificarCategoria);
+		
+		comboBoxCategoriasPModificar = new JComboBox();
+		comboBoxCategoriasPModificar.setBounds(86, 11, 400, 22);
+		panelModificarCategoria.add(comboBoxCategoriasPModificar);
+		
+		JPanel panelBorrarCategoria = new JPanel();
+		tabbedPaneCategorias.addTab("Borrar", null, panelBorrarCategoria, null);
+		panelBorrarCategoria.setLayout(null);
+		
+		JLabel lblSeleccionarCategoriaBorrar = new JLabel("Seleccionar:");
+		lblSeleccionarCategoriaBorrar.setBounds(10, 11, 74, 21);
+		panelBorrarCategoria.add(lblSeleccionarCategoriaBorrar);
+		
+		comboBoxCategoriasPBorrar = new JComboBox();
+		comboBoxCategoriasPBorrar.setBounds(91, 11, 391, 22);
+		panelBorrarCategoria.add(comboBoxCategoriasPBorrar);
+		
+		JButton btnBorrarCategoria = new JButton("Borrar");
+		btnBorrarCategoria.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		btnBorrarCategoria.setBounds(224, 62, 127, 53);
+		panelBorrarCategoria.add(btnBorrarCategoria);
+		
+		JPanel panelConsultarCategoria = new JPanel();
+		tabbedPaneCategorias.addTab("Consultar", null, panelConsultarCategoria, null);
+		panelConsultarCategoria.setLayout(null);
+		
+		JLabel lblConsultarCategoria = new JLabel("Consultar:");
+		lblConsultarCategoria.setBounds(10, 11, 62, 14);
+		panelConsultarCategoria.add(lblConsultarCategoria);
+		
+		comboBoxCategorias = new JComboBox();
+		comboBoxCategorias.setBounds(82, 7, 400, 22);
+		panelConsultarCategoria.add(comboBoxCategorias);
+		
+		JScrollPane scrollPaneConsultarCategorias = new JScrollPane();
+		scrollPaneConsultarCategorias.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPaneConsultarCategorias.setBounds(10, 60, 520, 179);
+		panelConsultarCategoria.add(scrollPaneConsultarCategorias);
+		
+		textAreaConsultarCategorias = new JTextArea();
+		textAreaConsultarCategorias.setWrapStyleWord(true);
+		textAreaConsultarCategorias.setLineWrap(true);
+		textAreaConsultarCategorias.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		textAreaConsultarCategorias.setEditable(false);
+		scrollPaneConsultarCategorias.setViewportView(textAreaConsultarCategorias);
+		
+		JLabel lblDatosDeLaCategoria = new JLabel("Datos De La Categoría:");
+		lblDatosDeLaCategoria.setBounds(10, 36, 145, 14);
+		panelConsultarCategoria.add(lblDatosDeLaCategoria);
+		
 		JPanel panelTipos = new JPanel();
 		tabbedPaneAdministracion.addTab("Tipos", null, panelTipos, null);
 		panelTipos.setLayout(new BoxLayout(panelTipos, BoxLayout.X_AXIS));
+		
+		JTabbedPane tabbedPaneTipos = new JTabbedPane(JTabbedPane.RIGHT);
+		panelTipos.add(tabbedPaneTipos);
+		
+		JPanel panelCrearTipo = new JPanel();
+		tabbedPaneTipos.addTab("Crear", null, panelCrearTipo, null);
+		panelCrearTipo.setLayout(null);
+		
+		JLabel lblNombreTipo = new JLabel("Nombre:");
+		lblNombreTipo.setBounds(10, 11, 76, 14);
+		panelCrearTipo.add(lblNombreTipo);
+		
+		textFieldNombreTipo = new JTextField();
+		textFieldNombreTipo.setBounds(86, 8, 440, 20);
+		panelCrearTipo.add(textFieldNombreTipo);
+		textFieldNombreTipo.setColumns(10);
+		
+		JButton btnCrearTipo = new JButton("Crear");
+		btnCrearTipo.setBounds(41, 168, 89, 23);
+		panelCrearTipo.add(btnCrearTipo);
+		
+		JButton btnTipoLimpiar = new JButton("Limpiar");
+		btnTipoLimpiar.setBounds(181, 168, 89, 23);
+		panelCrearTipo.add(btnTipoLimpiar);
+		
+		JPanel panelModificarTipo = new JPanel();
+		panelModificarTipo.setLayout(null);
+		tabbedPaneTipos.addTab("Modificar", null, panelModificarTipo, null);
+		
+		JLabel lblNombreTipoModificar = new JLabel("Nombre:");
+		lblNombreTipoModificar.setBounds(10, 44, 76, 14);
+		panelModificarTipo.add(lblNombreTipoModificar);
+		
+		textFieldNombreTipoModificar = new JTextField();
+		textFieldNombreTipoModificar.setColumns(10);
+		textFieldNombreTipoModificar.setBounds(86, 41, 440, 20);
+		panelModificarTipo.add(textFieldNombreTipoModificar);
+		
+		btnModificarTipo = new JButton("Modificar");
+		btnModificarTipo.setBounds(41, 168, 89, 23);
+		panelModificarTipo.add(btnModificarTipo);
+		
+		btnTipoLimpiarModificar = new JButton("Limpiar");
+		btnTipoLimpiarModificar.setBounds(181, 168, 89, 23);
+		panelModificarTipo.add(btnTipoLimpiarModificar);
+		
+		JLabel lblSeleccionarModificarTipo = new JLabel("Seleccionar:");
+		lblSeleccionarModificarTipo.setBounds(10, 11, 76, 21);
+		panelModificarTipo.add(lblSeleccionarModificarTipo);
+		
+		comboBoxTiposPModificar = new JComboBox();
+		comboBoxTiposPModificar.setBounds(86, 11, 400, 22);
+		panelModificarTipo.add(comboBoxTiposPModificar);
+		
+		JPanel panelBorrarTipo = new JPanel();
+		tabbedPaneTipos.addTab("Borrar", null, panelBorrarTipo, null);
+		panelBorrarTipo.setLayout(null);
+		
+		JLabel lblSeleccionarTipoBorrar = new JLabel("Seleccionar:");
+		lblSeleccionarTipoBorrar.setBounds(10, 11, 74, 21);
+		panelBorrarTipo.add(lblSeleccionarTipoBorrar);
+		
+		comboBoxTiposPBorrar = new JComboBox();
+		comboBoxTiposPBorrar.setBounds(91, 11, 391, 22);
+		panelBorrarTipo.add(comboBoxTiposPBorrar);
+		
+		JButton btnBorrarTipo = new JButton("Borrar");
+		btnBorrarTipo.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		btnBorrarTipo.setBounds(224, 62, 127, 53);
+		panelBorrarTipo.add(btnBorrarTipo);
+		
+		JPanel panelConsultarTipo = new JPanel();
+		tabbedPaneTipos.addTab("Consultar", null, panelConsultarTipo, null);
+		panelConsultarTipo.setLayout(null);
+		
+		JLabel lblConsultarTipo = new JLabel("Consultar:");
+		lblConsultarTipo.setBounds(10, 11, 62, 14);
+		panelConsultarTipo.add(lblConsultarTipo);
+		
+		comboBoxTipos = new JComboBox();
+		comboBoxTipos.setBounds(82, 7, 400, 22);
+		panelConsultarTipo.add(comboBoxTipos);
+		
+		JScrollPane scrollPaneConsultarTipos = new JScrollPane();
+		scrollPaneConsultarTipos.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPaneConsultarTipos.setBounds(10, 60, 520, 179);
+		panelConsultarTipo.add(scrollPaneConsultarTipos);
+		
+		textAreaConsultarTipos = new JTextArea();
+		textAreaConsultarTipos.setWrapStyleWord(true);
+		textAreaConsultarTipos.setLineWrap(true);
+		textAreaConsultarTipos.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		textAreaConsultarTipos.setEditable(false);
+		scrollPaneConsultarTipos.setViewportView(textAreaConsultarTipos);
+		
+		JLabel lblDatosDelTipo = new JLabel("Datos Del Tipo:");
+		lblDatosDelTipo.setBounds(10, 36, 105, 14);
+		panelConsultarTipo.add(lblDatosDelTipo);
 		
 		JPanel panelPrestamos = new JPanel();
 		tabbedPane.addTab("Préstamos", null, panelPrestamos, null);
