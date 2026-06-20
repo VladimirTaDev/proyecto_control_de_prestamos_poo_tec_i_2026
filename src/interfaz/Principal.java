@@ -623,10 +623,20 @@ public class Principal {
 		textFieldNombreTipo.setColumns(10);
 		
 		JButton btnCrearTipo = new JButton("Crear");
+		btnCrearTipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				crearTipo();
+			}
+		});
 		btnCrearTipo.setBounds(41, 168, 89, 23);
 		panelCrearTipo.add(btnCrearTipo);
 		
 		JButton btnTipoLimpiar = new JButton("Limpiar");
+		btnTipoLimpiar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiarCamposCrearTipo();
+			}
+		});
 		btnTipoLimpiar.setBounds(181, 168, 89, 23);
 		panelCrearTipo.add(btnTipoLimpiar);
 		
@@ -644,10 +654,20 @@ public class Principal {
 		panelModificarTipo.add(textFieldNombreTipoModificar);
 		
 		btnModificarTipo = new JButton("Modificar");
+		btnModificarTipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modificarTipo();
+			}
+		});
 		btnModificarTipo.setBounds(41, 168, 89, 23);
 		panelModificarTipo.add(btnModificarTipo);
 		
 		btnTipoLimpiarModificar = new JButton("Limpiar");
+		btnTipoLimpiarModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cargarCamposModificarTipo();
+			}
+		});
 		btnTipoLimpiarModificar.setBounds(181, 168, 89, 23);
 		panelModificarTipo.add(btnTipoLimpiarModificar);
 		
@@ -656,6 +676,11 @@ public class Principal {
 		panelModificarTipo.add(lblSeleccionarModificarTipo);
 		
 		comboBoxTiposPModificar = new JComboBox();
+		comboBoxTiposPModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cargarCamposModificarTipo();
+			}
+		});
 		comboBoxTiposPModificar.setBounds(86, 11, 400, 22);
 		panelModificarTipo.add(comboBoxTiposPModificar);
 		
@@ -672,6 +697,11 @@ public class Principal {
 		panelBorrarTipo.add(comboBoxTiposPBorrar);
 		
 		JButton btnBorrarTipo = new JButton("Borrar");
+		btnBorrarTipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				borrarTipo();
+			}
+		});
 		btnBorrarTipo.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		btnBorrarTipo.setBounds(224, 62, 127, 53);
 		panelBorrarTipo.add(btnBorrarTipo);
@@ -895,13 +925,13 @@ public class Principal {
 		
 		operacionRealizadaCorrectamente(); // Mensaje satisfactorio
 	}
-	
-	// Personas
+		
 	private void operacionRealizadaCorrectamente() {
 		JOptionPane.showMessageDialog(frameControlPrestamos, "Operación realizada correctamente.",
 				"Éxito", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
+	// Personas
 	private void crearPersona() {
 		String nombre = textFieldPersonaNombre.getText();
 		String telefono = textFieldPersonaTelefono.getText();
@@ -1044,6 +1074,68 @@ public class Principal {
 
 		if (confirmacion == JOptionPane.YES_OPTION) {
 			control.borrarCategoria(categoriaSeleccionada);
+			cargarDesplegables(); // Actualizar desplegables
+		}
+		
+		operacionRealizadaCorrectamente(); // Mensaje satisfactorio
+	}
+	
+	// Tipos
+	private void crearTipo() {
+		String nombre = textFieldNombreTipo.getText();
+		
+		if (nombre.isEmpty()) {
+			JOptionPane.showMessageDialog(frameControlPrestamos, "El nombre no puede estar vacío.",
+					"Error al crear tipo", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		control.crearTipo(nombre);
+		cargarDesplegables(); // Actualizar desplegables
+		limpiarCamposCrearTipo();
+		operacionRealizadaCorrectamente(); // Mensaje satisfactorio
+	}
+	
+	private void limpiarCamposCrearTipo() {
+		textFieldNombreTipo.setText("");
+	}
+	
+	private void modificarTipo() {
+		String tipoSeleccionado = (String) comboBoxTiposPModificar.getSelectedItem();
+		if (tipoSeleccionado == null)
+			return;
+
+		String nuevoNombre = textFieldNombreTipoModificar.getText();
+
+		if (nuevoNombre.isEmpty()) {
+			JOptionPane.showMessageDialog(frameControlPrestamos, "El nombre no puede estar vacío.",
+					"Error al modificar tipo", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		control.modificarTipo(tipoSeleccionado, nuevoNombre);
+		cargarDesplegables(); // Actualizar desplegables
+		cargarCamposModificarTipo(); // Cargar el nuevo nombre
+		operacionRealizadaCorrectamente(); // Mensaje satisfactorio
+	}
+	
+	private void cargarCamposModificarTipo() {
+		String tipoSeleccionado = (String) comboBoxTiposPModificar.getSelectedItem();
+		if (tipoSeleccionado == null)
+			return;
+
+		textFieldNombreTipoModificar.setText(tipoSeleccionado);
+	}
+	
+	private void borrarTipo() {
+		String tipoSeleccionado = (String) comboBoxTiposPBorrar.getSelectedItem();
+
+		int confirmacion = JOptionPane.showConfirmDialog(frameControlPrestamos,
+				"¿Seguro que quiere borrar \"" + tipoSeleccionado + "\"?", "Confirmar borrado",
+				JOptionPane.YES_NO_OPTION);
+
+		if (confirmacion == JOptionPane.YES_OPTION) {
+			control.borrarTipo(tipoSeleccionado);
 			cargarDesplegables(); // Actualizar desplegables
 		}
 		
