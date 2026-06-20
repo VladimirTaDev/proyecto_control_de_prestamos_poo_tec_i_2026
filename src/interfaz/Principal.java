@@ -7,6 +7,7 @@ import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -29,6 +30,12 @@ import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.JList;
+import javax.swing.JCheckBox;
+
+import java.util.List;
+import java.util.ArrayList;
+
 
 public class Principal {
 
@@ -79,7 +86,11 @@ public class Principal {
 	private JComboBox comboBoxTipos;
 	private JTextArea textAreaConsultarTipos;
 	
-
+	// Lista de los checkboxes creados
+    private List<JCheckBox> listaCheckboxesItems = new ArrayList<>();
+    private JPanel panelItemsDisponiblesCheck;
+    private JComboBox comboBoxPrestatarioNuevo;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -736,9 +747,64 @@ public class Principal {
 		
 		JPanel panelPrestamos = new JPanel();
 		tabbedPane.addTab("Préstamos", null, panelPrestamos, null);
+		panelPrestamos.setLayout(new BoxLayout(panelPrestamos, BoxLayout.X_AXIS));
+		
+		JTabbedPane tabbedPanePrestamos = new JTabbedPane(JTabbedPane.TOP);
+		panelPrestamos.add(tabbedPanePrestamos);
+		
+		JPanel panelNuevoPrestamo = new JPanel();
+		tabbedPanePrestamos.addTab("Nuevo", null, panelNuevoPrestamo, null);
+		panelNuevoPrestamo.setLayout(null);
+		
+		JLabel lblSececPrestatario = new JLabel("Prestatario");
+		lblSececPrestatario.setBounds(10, 11, 64, 14);
+		panelNuevoPrestamo.add(lblSececPrestatario);
+		
+		comboBoxPrestatarioNuevo = new JComboBox();
+		comboBoxPrestatarioNuevo.setBounds(84, 7, 307, 22);
+		panelNuevoPrestamo.add(comboBoxPrestatarioNuevo);
+		
+		JScrollPane scrollPaneItemsDisponibles = new JScrollPane();
+		scrollPaneItemsDisponibles.setBounds(22, 66, 317, 145);
+		panelNuevoPrestamo.add(scrollPaneItemsDisponibles);
+		
+		panelItemsDisponiblesCheck = new JPanel();
+		scrollPaneItemsDisponibles.setViewportView(panelItemsDisponiblesCheck);
+		panelItemsDisponiblesCheck.setLayout(new BoxLayout(panelItemsDisponiblesCheck, BoxLayout.Y_AXIS));
+		
+		JLabel lblItemsDisponibles = new JLabel("Items Disponibles:");
+		lblItemsDisponibles.setBounds(20, 41, 97, 14);
+		panelNuevoPrestamo.add(lblItemsDisponibles);
+		
+		JButton btnRealizarPrestamo = new JButton("Realizar Prestamo");
+		btnRealizarPrestamo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				hacerPrestamo();
+			}
+		});
+		btnRealizarPrestamo.setBounds(51, 221, 133, 23);
+		panelNuevoPrestamo.add(btnRealizarPrestamo);
+		
+		JButton btnLimpiarNuevoPrestamo = new JButton("Limpiar");
+		btnLimpiarNuevoPrestamo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiarCamposNuevoPrestamo();
+			}
+		});
+		btnLimpiarNuevoPrestamo.setBounds(393, 222, 89, 23);
+		panelNuevoPrestamo.add(btnLimpiarNuevoPrestamo);
+		
+		JPanel panelModificarPrestamo = new JPanel();
+		tabbedPanePrestamos.addTab("Modificar", null, panelModificarPrestamo, null);
+		panelModificarPrestamo.setLayout(null);
+		
+		JPanel panelFinalizarPrestamo = new JPanel();
+		tabbedPanePrestamos.addTab("Finalizar", null, panelFinalizarPrestamo, null);
+		panelFinalizarPrestamo.setLayout(null);
 		
 		JPanel panelReportes = new JPanel();
 		tabbedPane.addTab("Reportes", null, panelReportes, null);
+		panelReportes.setLayout(new BoxLayout(panelReportes, BoxLayout.X_AXIS));
 	}
 	
 	/////////////////////////////////////////////////
@@ -767,6 +833,18 @@ public class Principal {
 		if (comboBoxTiposPModificar != null) comboBoxTiposPModificar.removeAllItems();
 		if (comboBoxTiposPBorrar != null) comboBoxTiposPBorrar.removeAllItems();
 		if (comboBoxTipos != null) comboBoxTipos.removeAllItems();
+		// Prestamos
+		if (comboBoxPrestatarioNuevo != null) comboBoxPrestatarioNuevo.removeAllItems();
+		if (panelItemsDisponiblesCheck != null) {
+			panelItemsDisponiblesCheck.removeAll();
+			listaCheckboxesItems.clear();
+			// Generar un checkbox por cada ítem
+			for (String nombreItem : control.getListadoItems()) {
+				JCheckBox checkBox = new JCheckBox(nombreItem);
+				panelItemsDisponiblesCheck.add(checkBox);
+				listaCheckboxesItems.add(checkBox);
+			}
+		}
 
 		// Popular desplegables
 		// Ítems
@@ -824,8 +902,17 @@ public class Principal {
 			comboBoxTiposPBorrar.addItem(tipo);
 			comboBoxTipos.addItem(tipo);
 		}
+
+		// Préstamos
+		for (String persona : control.getListadoPersonas()) {
+			comboBoxPrestatarioNuevo.addItem(persona);
+		}
+		
+		panelItemsDisponiblesCheck.revalidate();
+		panelItemsDisponiblesCheck.repaint();
+
 	}
-	
+
 	// Items
 	private void cargarDetalleItem(String nombreItem, JTextArea textArea) {
 		if (nombreItem == null) {
@@ -1141,4 +1228,34 @@ public class Principal {
 		
 		operacionRealizadaCorrectamente(); // Mensaje satisfactorio
 	}
+	
+	// Préstamos
+	private void limpiarCamposNuevoPrestamo() {
+		cargarDesplegables(); // Actualizar desplegables
+	}
+
+	private void hacerPrestamo() {
+        List<String> itemsSeleccionados = new ArrayList<>();
+
+        // Revisar checkboxes guardados
+        for (JCheckBox cb : listaCheckboxesItems) {
+            if (cb.isSelected()) {
+                itemsSeleccionados.add(cb.getText());
+            }
+        }
+
+        // Validación
+        if (itemsSeleccionados.isEmpty()) {
+            JOptionPane.showMessageDialog(frameControlPrestamos, "Debe seleccionar un ítem.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Obtener prestatario
+        String prestatario = (String) comboBoxPrestatarioNuevo.getSelectedItem();
+        
+        // NOTA: Crear préstamo no implementado completamente
+        // TODO: agregar items
+        control.hacerPrestamo(prestatario, 5);
+    }
 }
