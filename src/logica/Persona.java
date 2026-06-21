@@ -41,8 +41,7 @@ public class Persona {
 		this.email = email;
 	}
 	
-	public List<Prestamo> getPrestamo() {
-		// No implementado
+	public List<Prestamo> getPrestamos() {
 		return prestamos;
 	}
 	

@@ -90,6 +90,10 @@ public class Principal {
     private List<JCheckBox> listaCheckboxesItems = new ArrayList<>();
     private JPanel panelItemsDisponiblesCheck;
     private JComboBox comboBoxPrestatarioNuevo;
+    private JComboBox comboBoxPrestatarioFinalizar;
+    private JButton btnFinalizarPrestamo;
+    private JTextArea textAreaItemsDelPrestamo;
+    private JComboBox comboBoxPrestamosActivos;
 	
 	/**
 	 * Launch the application.
@@ -773,7 +777,7 @@ public class Principal {
 		panelItemsDisponiblesCheck.setLayout(new BoxLayout(panelItemsDisponiblesCheck, BoxLayout.Y_AXIS));
 		
 		JLabel lblItemsDisponibles = new JLabel("Items Disponibles:");
-		lblItemsDisponibles.setBounds(20, 41, 97, 14);
+		lblItemsDisponibles.setBounds(20, 41, 108, 14);
 		panelNuevoPrestamo.add(lblItemsDisponibles);
 		
 		JButton btnRealizarPrestamo = new JButton("Realizar Prestamo");
@@ -782,7 +786,7 @@ public class Principal {
 				hacerPrestamo();
 			}
 		});
-		btnRealizarPrestamo.setBounds(51, 221, 133, 23);
+		btnRealizarPrestamo.setBounds(51, 221, 147, 23);
 		panelNuevoPrestamo.add(btnRealizarPrestamo);
 		
 		JButton btnLimpiarNuevoPrestamo = new JButton("Limpiar");
@@ -801,6 +805,45 @@ public class Principal {
 		JPanel panelFinalizarPrestamo = new JPanel();
 		tabbedPanePrestamos.addTab("Finalizar", null, panelFinalizarPrestamo, null);
 		panelFinalizarPrestamo.setLayout(null);
+		
+		JLabel lblSelecPrestatarioFinalizar = new JLabel("Prestatario");
+		lblSelecPrestatarioFinalizar.setBounds(10, 15, 64, 14);
+		panelFinalizarPrestamo.add(lblSelecPrestatarioFinalizar);
+		
+		comboBoxPrestatarioFinalizar = new JComboBox();
+		comboBoxPrestatarioFinalizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cargarPrestamosActivos();
+			}
+		});
+		comboBoxPrestatarioFinalizar.setBounds(84, 11, 307, 22);
+		panelFinalizarPrestamo.add(comboBoxPrestatarioFinalizar);
+		
+		JLabel lblprestamosDelPrestatario = new JLabel("Prestamos Activos:");
+		lblprestamosDelPrestatario.setBounds(10, 45, 120, 14);
+		panelFinalizarPrestamo.add(lblprestamosDelPrestatario);
+		
+		JScrollPane scrollItemsDelPrestamo = new JScrollPane();
+		scrollItemsDelPrestamo.setBounds(314, 70, 221, 145);
+		panelFinalizarPrestamo.add(scrollItemsDelPrestamo);
+		
+		textAreaItemsDelPrestamo = new JTextArea();
+		textAreaItemsDelPrestamo.setWrapStyleWord(true);
+		textAreaItemsDelPrestamo.setLineWrap(true);
+		textAreaItemsDelPrestamo.setEditable(false);
+		scrollItemsDelPrestamo.setViewportView(textAreaItemsDelPrestamo);
+		
+		JLabel lblItemsDelPrestamo = new JLabel("Items Del Prestamo");
+		lblItemsDelPrestamo.setBounds(314, 45, 120, 14);
+		panelFinalizarPrestamo.add(lblItemsDelPrestamo);
+		
+		btnFinalizarPrestamo = new JButton("Finalizar");
+		btnFinalizarPrestamo.setBounds(98, 192, 89, 23);
+		panelFinalizarPrestamo.add(btnFinalizarPrestamo);
+		
+		comboBoxPrestamosActivos = new JComboBox();
+		comboBoxPrestamosActivos.setBounds(10, 70, 241, 22);
+		panelFinalizarPrestamo.add(comboBoxPrestamosActivos);
 		
 		JPanel panelReportes = new JPanel();
 		tabbedPane.addTab("Reportes", null, panelReportes, null);
@@ -845,6 +888,7 @@ public class Principal {
 				listaCheckboxesItems.add(checkBox);
 			}
 		}
+		if (comboBoxPrestatarioFinalizar != null) comboBoxPrestatarioFinalizar.removeAllItems();
 
 		// Popular desplegables
 		// Ítems
@@ -910,6 +954,9 @@ public class Principal {
 		
 		panelItemsDisponiblesCheck.revalidate();
 		panelItemsDisponiblesCheck.repaint();
+		for (String persona : control.getListadoPersonas()) {
+			comboBoxPrestatarioFinalizar.addItem(persona);
+		}
 
 	}
 
@@ -1253,9 +1300,38 @@ public class Principal {
         
         // Obtener prestatario
         String prestatario = (String) comboBoxPrestatarioNuevo.getSelectedItem();
-        
-        // NOTA: Crear préstamo no implementado completamente
-        // TODO: agregar items
+
         control.hacerPrestamo(prestatario, 5);
+
+		// Obtener el último prestamo de la lista
+		int indiceNuevoPrestamo = control.getListadoPrestamos().size() - 1;
+
+		// Agregar ítems seleccionados al préstamo
+		for (String nombreItem : itemsSeleccionados) {
+			control.agregarItemAlPrestamo(indiceNuevoPrestamo, nombreItem);
+		}
+		
+		// NOTA: Crear préstamo no implementado completamente
+		// TODO: Agregar alerta y fecha de devolución
+
+        limpiarCamposNuevoPrestamo();
+        operacionRealizadaCorrectamente(); // Mensaje satisfactorio
     }
+	
+	private void cargarPrestamosActivos() {
+		// Obtener items del comboBoxPrestatarioFinalizar
+		String prestatarioSeleccionado = (String) comboBoxPrestatarioFinalizar.getSelectedItem();
+		if (prestatarioSeleccionado == null) {
+            return;
+        }
+		
+		// Obtener indices de prestamos activos del prestatario seleccionado
+		List<Integer> prestamosActivos = control.obtenerIndexPrestamosDePersona(prestatarioSeleccionado);
+		
+		// LLenar comboBoxPrestamosActivos con indices
+		comboBoxPrestamosActivos.removeAllItems();
+		for (Integer index : prestamosActivos) {
+			comboBoxPrestamosActivos.addItem(index);
+		}
+	}
 }

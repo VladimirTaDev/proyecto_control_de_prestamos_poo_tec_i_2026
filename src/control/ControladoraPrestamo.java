@@ -1,6 +1,8 @@
 package control;
 
 import logica.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -226,6 +228,22 @@ public class ControladoraPrestamo {
 			return "La persona no existe.";
 		}
 		return "Nombre: " + persona.getNombre() + "\nTeléfono: " + persona.getTelefono() + "\nEmail: " + persona.getEmail();
+	}
+	
+	// Obtiene indices de prestamos en la controladora de un prestatario
+	public List<Integer> obtenerIndexPrestamosDePersona(String nombrePersona) {
+		List<Integer> indices = new ArrayList<>();
+		Persona persona = personas.get(nombrePersona);
+		
+		// Obtener indices de prestamos de la persona (indices en controladora)
+		for (Prestamo prestamo : persona.getPrestamos()) {
+	        int indice = prestamos.indexOf(prestamo);
+	        if (indice != -1) {
+	            indices.add(indice);
+	        }
+	    }
+		
+		return indices;
 	}
 	
 	public boolean crearCategoria(String tema) {
