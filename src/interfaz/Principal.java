@@ -94,6 +94,9 @@ public class Principal {
     private JButton btnFinalizarPrestamo;
     private JTextArea textAreaItemsDelPrestamo;
     private JComboBox comboBoxPrestamosActivos;
+    private JComboBox comboBoxPrestatarioModificar;
+    private JComboBox comboBoxPrestamosActivosModificar;
+    private JPanel panelItemsPrestadosCheck;
 	
 	/**
 	 * Launch the application.
@@ -802,6 +805,47 @@ public class Principal {
 		tabbedPanePrestamos.addTab("Modificar", null, panelModificarPrestamo, null);
 		panelModificarPrestamo.setLayout(null);
 		
+		JLabel lblSelecPrestatarioModificar = new JLabel("Prestatario");
+		lblSelecPrestatarioModificar.setBounds(10, 11, 64, 14);
+		panelModificarPrestamo.add(lblSelecPrestatarioModificar);
+		
+		comboBoxPrestatarioModificar = new JComboBox();
+		comboBoxPrestatarioModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cargarPrestamosActivosModificar();
+			}
+		});
+		comboBoxPrestatarioModificar.setBounds(84, 7, 307, 22);
+		panelModificarPrestamo.add(comboBoxPrestatarioModificar);
+		
+		JLabel lblPrestamosActivosModificar = new JLabel("Prestamos Activos:");
+		lblPrestamosActivosModificar.setBounds(10, 41, 120, 14);
+		panelModificarPrestamo.add(lblPrestamosActivosModificar);
+		
+		comboBoxPrestamosActivosModificar = new JComboBox();
+		comboBoxPrestamosActivosModificar.setBounds(130, 37, 261, 22);
+		panelModificarPrestamo.add(comboBoxPrestamosActivosModificar);
+		
+		JScrollPane scrollPaneItemsPrestados = new JScrollPane();
+		scrollPaneItemsPrestados.setBounds(22, 90, 317, 121);
+		panelModificarPrestamo.add(scrollPaneItemsPrestados);
+		
+		panelItemsPrestadosCheck = new JPanel();
+		scrollPaneItemsPrestados.setViewportView(panelItemsPrestadosCheck);
+		panelItemsPrestadosCheck.setLayout(new BoxLayout(panelItemsPrestadosCheck, BoxLayout.Y_AXIS));
+		
+		JLabel lblItemsPrestados = new JLabel("Items Prestados:");
+		lblItemsPrestados.setBounds(20, 70, 108, 14);
+		panelModificarPrestamo.add(lblItemsPrestados);
+		
+		JButton btnModificarPrestamo = new JButton("Modificar Prestamo");
+		btnModificarPrestamo.setBounds(51, 221, 147, 23);
+		panelModificarPrestamo.add(btnModificarPrestamo);
+		
+		JButton btnLimpiarModificarPrestamo = new JButton("Limpiar");
+		btnLimpiarModificarPrestamo.setBounds(393, 222, 89, 23);
+		panelModificarPrestamo.add(btnLimpiarModificarPrestamo);
+		
 		JPanel panelFinalizarPrestamo = new JPanel();
 		tabbedPanePrestamos.addTab("Finalizar", null, panelFinalizarPrestamo, null);
 		panelFinalizarPrestamo.setLayout(null);
@@ -889,6 +933,7 @@ public class Principal {
 			}
 		}
 		if (comboBoxPrestatarioFinalizar != null) comboBoxPrestatarioFinalizar.removeAllItems();
+		if (comboBoxPrestatarioModificar != null) comboBoxPrestatarioModificar.removeAllItems();
 
 		// Popular desplegables
 		// Ítems
@@ -956,6 +1001,9 @@ public class Principal {
 		panelItemsDisponiblesCheck.repaint();
 		for (String persona : control.getListadoPersonas()) {
 			comboBoxPrestatarioFinalizar.addItem(persona);
+		}
+		for (String persona : control.getListadoPersonas()) {
+			comboBoxPrestatarioModificar.addItem(persona);
 		}
 
 	}
@@ -1332,6 +1380,23 @@ public class Principal {
 		comboBoxPrestamosActivos.removeAllItems();
 		for (Integer index : prestamosActivos) {
 			comboBoxPrestamosActivos.addItem(index);
+		}
+	}
+	
+	private void cargarPrestamosActivosModificar() {
+		// Obtener items del comboBoxPrestatarioFinalizar
+		String prestatarioSeleccionado = (String) comboBoxPrestatarioModificar.getSelectedItem();
+		if (prestatarioSeleccionado == null) {
+            return;
+        }
+		
+		// Obtener indices de prestamos activos del prestatario seleccionado
+		List<Integer> prestamosActivos = control.obtenerIndexPrestamosDePersona(prestatarioSeleccionado);
+		
+		// LLenar comboBoxPrestamosActivos con indices
+		comboBoxPrestamosActivosModificar.removeAllItems();
+		for (Integer index : prestamosActivos) {
+			comboBoxPrestamosActivosModificar.addItem(index);
 		}
 	}
 }
