@@ -823,6 +823,11 @@ public class Principal {
 		panelModificarPrestamo.add(lblPrestamosActivosModificar);
 		
 		comboBoxPrestamosActivosModificar = new JComboBox();
+		comboBoxPrestamosActivosModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cargarPrestamosActivosModificar();
+			}
+		});
 		comboBoxPrestamosActivosModificar.setBounds(130, 37, 261, 22);
 		panelModificarPrestamo.add(comboBoxPrestamosActivosModificar);
 		
@@ -857,7 +862,7 @@ public class Principal {
 		comboBoxPrestatarioFinalizar = new JComboBox();
 		comboBoxPrestatarioFinalizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cargarPrestamosActivos();
+				cargarPrestamosActivosFinalizar();
 			}
 		});
 		comboBoxPrestatarioFinalizar.setBounds(84, 11, 307, 22);
@@ -886,6 +891,11 @@ public class Principal {
 		panelFinalizarPrestamo.add(btnFinalizarPrestamo);
 		
 		comboBoxPrestamosActivos = new JComboBox();
+		comboBoxPrestamosActivos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cargarListaDeItemsFinalizar();
+			}
+		});
 		comboBoxPrestamosActivos.setBounds(10, 70, 241, 22);
 		panelFinalizarPrestamo.add(comboBoxPrestamosActivos);
 		
@@ -928,7 +938,7 @@ public class Principal {
 			panelItemsDisponiblesCheck.removeAll();
 			listaCheckboxesItems.clear();
 			// Generar un checkbox por cada ítem sin prestatario asignado
-			for (String nombreItem : control.getListadoItems()) {
+			for (String nombreItem : control.getListadoItemsDisponibles()) {
 				JCheckBox checkBox = new JCheckBox(nombreItem);
 				panelItemsDisponiblesCheck.add(checkBox);
 				listaCheckboxesItems.add(checkBox);
@@ -1368,7 +1378,7 @@ public class Principal {
         operacionRealizadaCorrectamente(); // Mensaje satisfactorio
     }
 	
-	private void cargarPrestamosActivos() {
+	private void cargarPrestamosActivosFinalizar() {
 		// Obtener items del comboBoxPrestatarioFinalizar
 		String prestatarioSeleccionado = (String) comboBoxPrestatarioFinalizar.getSelectedItem();
 		if (prestatarioSeleccionado == null) {
@@ -1385,8 +1395,26 @@ public class Principal {
 		}
 	}
 	
+	private void cargarListaDeItemsFinalizar() {
+		// Obtener el índice del préstamo seleccionado
+		Integer indicePrestamoSeleccionado = (Integer) comboBoxPrestamosActivos.getSelectedItem();
+		if (indicePrestamoSeleccionado == null) {
+			return;
+		}
+		
+		// Obtener los ítems del préstamo seleccionado
+		List<String> itemsDelPrestamo = control.getListadoItemsDeUnPrestamo(indicePrestamoSeleccionado);
+		
+		// Llenar listaItemsFinalizar con los ítems del préstamo textAreaItemsDelPrestamo
+		textAreaItemsDelPrestamo.setText(""); // Limpiar texto
+		for (String item : itemsDelPrestamo) {
+			textAreaItemsDelPrestamo.append(item + "\n");
+		}
+		
+	}
+	
 	private void cargarPrestamosActivosModificar() {
-		// Obtener items del comboBoxPrestatarioFinalizar
+		// Obtener prestatario del comboBoxPrestatarioModificar
 		String prestatarioSeleccionado = (String) comboBoxPrestatarioModificar.getSelectedItem();
 		if (prestatarioSeleccionado == null) {
             return;
@@ -1395,10 +1423,32 @@ public class Principal {
 		// Obtener indices de prestamos activos del prestatario seleccionado
 		List<Integer> prestamosActivos = control.obtenerIndexPrestamosDePersona(prestatarioSeleccionado);
 		
-		// LLenar comboBoxPrestamosActivos con indices
+		// Llenar comboBoxPrestamosActivos con indices
 		comboBoxPrestamosActivosModificar.removeAllItems();
 		for (Integer index : prestamosActivos) {
 			comboBoxPrestamosActivosModificar.addItem(index);
 		}
+		
+		// llenar Items prestados para modificar
+		if (panelItemsPrestadosCheck != null) {
+			panelItemsPrestadosCheck.removeAll();
+			listaCheckboxesItems.clear();
+			
+			Integer indicePrestamoSeleccionado = (Integer) comboBoxPrestamosActivosModificar.getSelectedItem();
+			if (indicePrestamoSeleccionado != null) {
+				List<String> itemsDelPrestamo = control.getListadoItemsDeUnPrestamo(indicePrestamoSeleccionado);
+				// Generar un checkbox por cada ítem
+				for (String nombreItem : itemsDelPrestamo) {
+					JCheckBox checkBox = new JCheckBox(nombreItem);
+					panelItemsPrestadosCheck.add(checkBox);
+					listaCheckboxesItems.add(checkBox);
+				}
+			}
+			panelItemsPrestadosCheck.revalidate();
+			panelItemsPrestadosCheck.repaint();
+		}
+		
+		// TODO: Agregar funcionalidad para modificar
 	}
+
 }

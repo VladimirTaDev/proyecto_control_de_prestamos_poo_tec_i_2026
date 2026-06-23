@@ -207,19 +207,16 @@ public class ControladoraPrestamo {
 		return disponibles;
 	}
 
-	// Listado de items prestados a alguien
-	public List<String> getListadoItemsPrestadosA(String nombrePrestatario) {
+	// Listado de items prestados por indice de prestamo
+	public List<String> getListadoItemsDeUnPrestamo(int indicePrestamo) {
 		List<String> prestados = new ArrayList<>();
-
-		// Loop los prestamos dados
-		for (Prestamo prestamo : prestamos) {
-			if (prestamo.getPrestatario().getNombre().equals(nombrePrestatario)) {
-				// Loop los items de cada prestamo
-				for (String item : prestamo.getItemsPrestados().keySet()) {
-					prestados.add(item);
-				}
-			}
+		if (indicePrestamo < 0) {
+			return prestados; // No hay prestamos en esa posición
 		}
+		
+		for (String item : prestamos.get(indicePrestamo).getItemsPrestados().keySet()) {
+			prestados.add(item);
+			}
 		return prestados;
 	}
 	
