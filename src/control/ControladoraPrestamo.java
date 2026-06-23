@@ -195,6 +195,34 @@ public class ControladoraPrestamo {
 				+ item.getCategoria().getTema() + "\nTipo: " + item.getTipo().getNombre();
 	}
 	
+	// Listado de items disponibles para prestamo
+	public List<String> getListadoItemsDisponibles() {
+		List<String> disponibles = new ArrayList<>();
+		for (Item item : items.values()) {
+			// Disponible si no hay prestamo asignado
+			if (item.getPrestamoActual() == null) {
+				disponibles.add(item.getNombre());
+			}
+		}
+		return disponibles;
+	}
+
+	// Listado de items prestados a alguien
+	public List<String> getListadoItemsPrestadosA(String nombrePrestatario) {
+		List<String> prestados = new ArrayList<>();
+
+		// Loop los prestamos dados
+		for (Prestamo prestamo : prestamos) {
+			if (prestamo.getPrestatario().getNombre().equals(nombrePrestatario)) {
+				// Loop los items de cada prestamo
+				for (String item : prestamo.getItemsPrestados().keySet()) {
+					prestados.add(item);
+				}
+			}
+		}
+		return prestados;
+	}
+	
 	public boolean crearPerosna(String nombre, String telefono, String email) {
 		if (personas.containsKey(nombre)) {
 			return false; // La persona ya existe

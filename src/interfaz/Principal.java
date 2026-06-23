@@ -922,10 +922,12 @@ public class Principal {
 		if (comboBoxTipos != null) comboBoxTipos.removeAllItems();
 		// Prestamos
 		if (comboBoxPrestatarioNuevo != null) comboBoxPrestatarioNuevo.removeAllItems();
+		
+		// Cargar checkboxes nuevo préstamo
 		if (panelItemsDisponiblesCheck != null) {
 			panelItemsDisponiblesCheck.removeAll();
 			listaCheckboxesItems.clear();
-			// Generar un checkbox por cada ítem
+			// Generar un checkbox por cada ítem sin prestatario asignado
 			for (String nombreItem : control.getListadoItems()) {
 				JCheckBox checkBox = new JCheckBox(nombreItem);
 				panelItemsDisponiblesCheck.add(checkBox);
