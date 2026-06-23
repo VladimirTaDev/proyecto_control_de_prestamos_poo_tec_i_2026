@@ -826,7 +826,7 @@ public class Principal {
 		comboBoxPrestamosActivosModificar = new JComboBox();
 		comboBoxPrestamosActivosModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cargarPrestamosActivosModificar();
+				cargarListaDeItemsModificar();
 			}
 		});
 		comboBoxPrestamosActivosModificar.setBounds(130, 37, 261, 22);
@@ -1429,7 +1429,9 @@ public class Principal {
 		for (Integer index : prestamosActivos) {
 			comboBoxPrestamosActivosModificar.addItem(index);
 		}
-		
+	}
+	
+	private void cargarListaDeItemsModificar() {
 		// llenar Items prestados para modificar
 		if (panelItemsPrestadosCheck != null) {
 			panelItemsPrestadosCheck.removeAll();
@@ -1448,8 +1450,6 @@ public class Principal {
 			panelItemsPrestadosCheck.revalidate();
 			panelItemsPrestadosCheck.repaint();
 		}
-		
-		// TODO: Agregar funcionalidad para modificar
 	}
 
 }
