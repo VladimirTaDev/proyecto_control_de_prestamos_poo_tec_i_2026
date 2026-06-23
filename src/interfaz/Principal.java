@@ -87,7 +87,8 @@ public class Principal {
 	private JTextArea textAreaConsultarTipos;
 	
 	// Lista de los checkboxes creados
-    private List<JCheckBox> listaCheckboxesItems = new ArrayList<>();
+    private List<JCheckBox> listaCheckboxesItemsDisponibles = new ArrayList<>();
+    private List<JCheckBox> listaCheckboxesItemsPrestados = new ArrayList<>();
     private JPanel panelItemsDisponiblesCheck;
     private JComboBox comboBoxPrestatarioNuevo;
     private JComboBox comboBoxPrestatarioFinalizar;
@@ -936,12 +937,12 @@ public class Principal {
 		// Cargar checkboxes nuevo préstamo
 		if (panelItemsDisponiblesCheck != null) {
 			panelItemsDisponiblesCheck.removeAll();
-			listaCheckboxesItems.clear();
+			listaCheckboxesItemsDisponibles.clear();
 			// Generar un checkbox por cada ítem sin prestatario asignado
 			for (String nombreItem : control.getListadoItemsDisponibles()) {
 				JCheckBox checkBox = new JCheckBox(nombreItem);
 				panelItemsDisponiblesCheck.add(checkBox);
-				listaCheckboxesItems.add(checkBox);
+				listaCheckboxesItemsDisponibles.add(checkBox);
 			}
 		}
 		if (comboBoxPrestatarioFinalizar != null) comboBoxPrestatarioFinalizar.removeAllItems();
@@ -1345,7 +1346,7 @@ public class Principal {
         List<String> itemsSeleccionados = new ArrayList<>();
 
         // Revisar checkboxes guardados
-        for (JCheckBox cb : listaCheckboxesItems) {
+        for (JCheckBox cb : listaCheckboxesItemsDisponibles) {
             if (cb.isSelected()) {
                 itemsSeleccionados.add(cb.getText());
             }
@@ -1432,7 +1433,7 @@ public class Principal {
 		// llenar Items prestados para modificar
 		if (panelItemsPrestadosCheck != null) {
 			panelItemsPrestadosCheck.removeAll();
-			listaCheckboxesItems.clear();
+			listaCheckboxesItemsPrestados.clear();
 			
 			Integer indicePrestamoSeleccionado = (Integer) comboBoxPrestamosActivosModificar.getSelectedItem();
 			if (indicePrestamoSeleccionado != null) {
@@ -1441,7 +1442,7 @@ public class Principal {
 				for (String nombreItem : itemsDelPrestamo) {
 					JCheckBox checkBox = new JCheckBox(nombreItem);
 					panelItemsPrestadosCheck.add(checkBox);
-					listaCheckboxesItems.add(checkBox);
+					listaCheckboxesItemsPrestados.add(checkBox);
 				}
 			}
 			panelItemsPrestadosCheck.revalidate();
