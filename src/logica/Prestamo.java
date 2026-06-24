@@ -55,7 +55,7 @@ public class Prestamo {
 	}
 	
 	public void removerItem(Item item) {
-		itemsPrestados.remove(item);
+		itemsPrestados.remove(item.getNombre());
 	}
 	
 	public void setAlerta(Alerta alerta) {

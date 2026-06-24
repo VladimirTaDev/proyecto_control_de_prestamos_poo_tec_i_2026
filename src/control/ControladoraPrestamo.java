@@ -388,16 +388,23 @@ public class ControladoraPrestamo {
 		return true;
 	}
 				
-	// No implementado correctamente, se asume que el item se retorna del préstamo
-	public boolean retornarItemDelPrestamo(int indicePrestamo, String nombreItem) {
-		
-		return true; // El item se retornó del préstamo
-	}
-	
-	// No implementado correctamente, se asume que el préstamo se finaliza al retornar el item
 	public boolean finalizarPrestamo(int indicePrestamo) {
-		// prestamo.finalizar(); ???
-		return true; // El préstamo se finalizó
+		if (indicePrestamo < 0 || indicePrestamo >= prestamos.size()) {
+			return false; // Índice de préstamo no válido
+		}
+		
+		Prestamo prestamo = prestamos.get(indicePrestamo);
+		
+		// Remover préstamo de cada item prestado
+		for (Item item : prestamo.getItemsPrestados().values()) {
+			item.removerPrestamoActual();
+		}
+		// Remover items del Prestamo y Prestamo de Persona
+		prestamo.getItemsPrestados().clear();
+		prestamo.getPrestatario().eliminarPrestamo(prestamo);
+		// Remover préstamo de la lista de préstamos
+		prestamos.remove(indicePrestamo);
+		return true;
 	}
 	
 	// Métodos para obtener listados de personas, items, categorías y tipos

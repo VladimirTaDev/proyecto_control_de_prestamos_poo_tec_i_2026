@@ -844,11 +844,21 @@ public class Principal {
 		lblItemsPrestados.setBounds(20, 70, 108, 14);
 		panelModificarPrestamo.add(lblItemsPrestados);
 		
-		JButton btnModificarPrestamo = new JButton("Modificar Prestamo");
-		btnModificarPrestamo.setBounds(51, 221, 147, 23);
-		panelModificarPrestamo.add(btnModificarPrestamo);
+		JButton btnEliminarSeleccionado = new JButton("Eliminar Items Seleccionados");
+		btnEliminarSeleccionado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				eliminarItemsSeleccionados();
+			}
+		});
+		btnEliminarSeleccionado.setBounds(51, 221, 185, 23);
+		panelModificarPrestamo.add(btnEliminarSeleccionado);
 		
 		JButton btnLimpiarModificarPrestamo = new JButton("Limpiar");
+		btnLimpiarModificarPrestamo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiarCamposModificarPrestamo();
+			}
+		});
 		btnLimpiarModificarPrestamo.setBounds(393, 222, 89, 23);
 		panelModificarPrestamo.add(btnLimpiarModificarPrestamo);
 		
@@ -888,6 +898,11 @@ public class Principal {
 		panelFinalizarPrestamo.add(lblItemsDelPrestamo);
 		
 		btnFinalizarPrestamo = new JButton("Finalizar");
+		btnFinalizarPrestamo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				finalizarPrestamo();
+			}
+		});
 		btnFinalizarPrestamo.setBounds(98, 192, 89, 23);
 		panelFinalizarPrestamo.add(btnFinalizarPrestamo);
 		
@@ -1397,6 +1412,8 @@ public class Principal {
 	}
 	
 	private void cargarListaDeItemsFinalizar() {
+		textAreaItemsDelPrestamo.setText(""); // Limpiar texto
+		
 		// Obtener el índice del préstamo seleccionado
 		Integer indicePrestamoSeleccionado = (Integer) comboBoxPrestamosActivos.getSelectedItem();
 		if (indicePrestamoSeleccionado == null) {
@@ -1407,7 +1424,6 @@ public class Principal {
 		List<String> itemsDelPrestamo = control.getListadoItemsDeUnPrestamo(indicePrestamoSeleccionado);
 		
 		// Llenar listaItemsFinalizar con los ítems del préstamo textAreaItemsDelPrestamo
-		textAreaItemsDelPrestamo.setText(""); // Limpiar texto
 		for (String item : itemsDelPrestamo) {
 			textAreaItemsDelPrestamo.append(item + "\n");
 		}
@@ -1450,6 +1466,66 @@ public class Principal {
 			panelItemsPrestadosCheck.revalidate();
 			panelItemsPrestadosCheck.repaint();
 		}
+	}
+
+	private void limpiarCamposModificarPrestamo() {
+		comboBoxPrestatarioModificar.setSelectedIndex(0);
+		comboBoxPrestamosActivosModificar.removeAllItems();
+		panelItemsPrestadosCheck.removeAll();
+		listaCheckboxesItemsPrestados.clear();
+		panelItemsPrestadosCheck.revalidate();
+		panelItemsPrestadosCheck.repaint();
+	}
+
+	private void eliminarItemsSeleccionados() {
+		Integer indicePrestamo = (Integer) comboBoxPrestamosActivosModificar.getSelectedItem();
+		if (indicePrestamo == null) {
+			return;
+		}
+		
+		// Obtener items seleccionados		
+		List<String> seleccionados = new ArrayList<>();
+		for (JCheckBox cb : listaCheckboxesItemsPrestados) {
+			if (cb.isSelected()) {
+				seleccionados.add(cb.getText());
+			}
+		}
+
+		// ERROR: Debe seleccionar un item
+		if (seleccionados.isEmpty()) {
+			JOptionPane.showMessageDialog(frameControlPrestamos, "Debe seleccionar al menos un ítem.",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		// ERROR: Al menos un item debe quedar seleccionado
+		int totalItems = control.getListadoItemsDeUnPrestamo(indicePrestamo).size();
+		if (seleccionados.size() >= totalItems) {
+			JOptionPane.showMessageDialog(frameControlPrestamos,
+					"El préstamo debe quedar con al menos un ítem.",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		for (String nombreItem : seleccionados) {
+			control.eliminarItemDelPrestamo(indicePrestamo, nombreItem);
+		}
+
+		cargarDesplegables();
+		cargarPrestamosActivosModificar();
+		operacionRealizadaCorrectamente();
+	}
+
+	private void finalizarPrestamo() {
+		Integer indicePrestamo = (Integer) comboBoxPrestamosActivos.getSelectedItem();
+		if (indicePrestamo == null) {
+			JOptionPane.showMessageDialog(frameControlPrestamos, "Debe seleccionar un préstamo.",
+					"Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		control.finalizarPrestamo(indicePrestamo);
+		cargarDesplegables();
+		operacionRealizadaCorrectamente();
 	}
 
 }
