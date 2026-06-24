@@ -35,6 +35,8 @@ import javax.swing.JCheckBox;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 
 public class Principal {
@@ -921,6 +923,13 @@ public class Principal {
 		panelFinalizarPrestamo.add(comboBoxPrestamosActivos);
 		
 		JPanel panelReportes = new JPanel();
+		panelReportes.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent e) {
+				// Actualizar todas las pestañas
+				imprimirReportePorUsuario();
+			}
+		});
 		tabbedPane.addTab("Reportes", null, panelReportes, null);
 		panelReportes.setLayout(new BoxLayout(panelReportes, BoxLayout.X_AXIS));
 		
@@ -1598,6 +1607,11 @@ public class Principal {
 		control.finalizarPrestamo(indicePrestamo);
 		cargarDesplegables();
 		operacionRealizadaCorrectamente();
+	}
+	
+	public void imprimirReportePorUsuario() {
+		String reporte = control.reportePorUsuario();
+		textAreaReporteUsuario.setText(reporte);
 	}
 
 }
