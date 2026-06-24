@@ -86,6 +86,11 @@ public class Principal {
 	private JComboBox comboBoxTipos;
 	private JTextArea textAreaConsultarTipos;
 	
+	private JTextArea textAreaReporteUsuario;
+	private JTextArea textAreaReporteItem;
+	private JTextArea textAreaReporteCategoria;
+	private JTextArea textAreaReporteTipo;
+	
 	// Lista de los checkboxes creados
     private List<JCheckBox> listaCheckboxesItemsDisponibles = new ArrayList<>();
     private List<JCheckBox> listaCheckboxesItemsPrestados = new ArrayList<>();
@@ -918,6 +923,73 @@ public class Principal {
 		JPanel panelReportes = new JPanel();
 		tabbedPane.addTab("Reportes", null, panelReportes, null);
 		panelReportes.setLayout(new BoxLayout(panelReportes, BoxLayout.X_AXIS));
+		
+		JTabbedPane tabbedPaneReportes = new JTabbedPane(JTabbedPane.TOP);
+		panelReportes.add(tabbedPaneReportes);
+		
+		JPanel panelReporteUsuario = new JPanel();
+		tabbedPaneReportes.addTab("Por Usuario", null, panelReporteUsuario, null);
+		panelReporteUsuario.setLayout(null);
+		
+		JScrollPane scrollReporteUsuario = new JScrollPane();
+		scrollReporteUsuario.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollReporteUsuario.setBounds(10, 11, 600, 220);
+		panelReporteUsuario.add(scrollReporteUsuario);
+		
+		textAreaReporteUsuario = new JTextArea();
+		textAreaReporteUsuario.setWrapStyleWord(true);
+		textAreaReporteUsuario.setLineWrap(true);
+		textAreaReporteUsuario.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		textAreaReporteUsuario.setEditable(false);
+		scrollReporteUsuario.setViewportView(textAreaReporteUsuario);
+		
+		JPanel panelReporteItem = new JPanel();
+		tabbedPaneReportes.addTab("Por Ítem", null, panelReporteItem, null);
+		panelReporteItem.setLayout(null);
+		
+		JScrollPane scrollReporteItem = new JScrollPane();
+		scrollReporteItem.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollReporteItem.setBounds(10, 11, 600, 220);
+		panelReporteItem.add(scrollReporteItem);
+		
+		textAreaReporteItem = new JTextArea();
+		textAreaReporteItem.setWrapStyleWord(true);
+		textAreaReporteItem.setLineWrap(true);
+		textAreaReporteItem.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		textAreaReporteItem.setEditable(false);
+		scrollReporteItem.setViewportView(textAreaReporteItem);
+		
+		JPanel panelReporteCategoria = new JPanel();
+		tabbedPaneReportes.addTab("Por Categoría", null, panelReporteCategoria, null);
+		panelReporteCategoria.setLayout(null);
+		
+		JScrollPane scrollReporteCategoria = new JScrollPane();
+		scrollReporteCategoria.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollReporteCategoria.setBounds(10, 11, 600, 220);
+		panelReporteCategoria.add(scrollReporteCategoria);
+		
+		textAreaReporteCategoria = new JTextArea();
+		textAreaReporteCategoria.setWrapStyleWord(true);
+		textAreaReporteCategoria.setLineWrap(true);
+		textAreaReporteCategoria.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		textAreaReporteCategoria.setEditable(false);
+		scrollReporteCategoria.setViewportView(textAreaReporteCategoria);
+		
+		JPanel panelReporteTipo = new JPanel();
+		tabbedPaneReportes.addTab("Por Tipo", null, panelReporteTipo, null);
+		panelReporteTipo.setLayout(null);
+		
+		JScrollPane scrollPaneReporteTipo = new JScrollPane();
+		scrollPaneReporteTipo.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPaneReporteTipo.setBounds(10, 11, 600, 220);
+		panelReporteTipo.add(scrollPaneReporteTipo);
+		
+		textAreaReporteTipo = new JTextArea();
+		textAreaReporteTipo.setWrapStyleWord(true);
+		textAreaReporteTipo.setLineWrap(true);
+		textAreaReporteTipo.setFont(new Font("Monospaced", Font.PLAIN, 14));
+		textAreaReporteTipo.setEditable(false);
+		scrollPaneReporteTipo.setViewportView(textAreaReporteTipo);
 	}
 	
 	/////////////////////////////////////////////////

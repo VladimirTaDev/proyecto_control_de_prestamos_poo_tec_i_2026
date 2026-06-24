@@ -462,20 +462,26 @@ public class ControladoraPrestamo {
 		// Tipos
 		crearTipo("Tecnología");
 		crearTipo("Supervivencia");
+		crearTipo("Curación");
+		crearTipo("Visión");
 
 		// Categorías
 		crearCategoria("Comunicaciones");
 		crearCategoria("Visión");
 		crearCategoria("Camuflaje");
 		crearCategoria("Raciones");
+		crearCategoria("Equipamiento");
+		crearCategoria("Medicina");
 
 		// Items
 		crearItem("Codec", "Dispositivo de comunicación a través de nanomáquinas.", "Comunicaciones", "Tecnología");
 		crearItem("Thermal Goggles", "Gafas de visión térmica para detectar calor corporal.", "Visión", "Tecnología");
-		crearItem("Cigar", "Cigarro clásico, útil para detectar láseres infrarrojos.", "Raciones", "Supervivencia");
 		crearItem("Cardboard Box", "Caja de cartón ideal para pasar desapercibido.", "Camuflaje", "Supervivencia");
 		crearItem("Calorie Mate", "Bloque nutritivo sabor chocolate que restaura estamina.", "Raciones", "Supervivencia");
-
+		crearItem("Gafas de Visión Nocturna", "Amplifica la luz ambiental, permitiendo ver con claridad en entornos completamente oscuros.", "Equipamiento", "Visión");
+		crearItem("Ración", "Comida militar empaquetada. Restaura una porción moderada de tu salud al consumirla.", "Raciones", "Curación");
+		crearItem("Medicina para el Resfriado", "Cura estornudos y tos, evitando que tu posición sea revelada por el ruido.", "Medicina", "Curación");
+		
 		// Préstamos
 		hacerPrestamo("Ivan Raikov", 5);
 		agregarItemAlPrestamo(0, "Codec");
