@@ -2,7 +2,7 @@ package logica;
 
 import java.util.Set;
 
-public class Item {
+public class Item implements java.io.Serializable {
 	private String nombre;
 	private String descripcion;
 	private Set<Categoria> categorias; // HashSet - No permite duplicados

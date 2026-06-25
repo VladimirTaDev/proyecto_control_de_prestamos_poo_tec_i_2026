@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class ControladoraPrestamo {
+public class ControladoraPrestamo implements java.io.Serializable {
 	private static final String ARCHIVO_DATOS = "DatosPrestamo.bin";
 	private static ControladoraPrestamo instancia;
 	
@@ -548,6 +548,22 @@ public class ControladoraPrestamo {
 		hacerPrestamo("Olga Gurlukovich", 10);
 		agregarItemAlPrestamo(1, "Thermal Goggles");
 		agregarItemAlPrestamo(1, "Cardboard Box");
+	}
+
+	public static void guardarDatos() throws java.io.IOException {
+		java.io.FileOutputStream archivo = new java.io.FileOutputStream(ARCHIVO_DATOS);
+		java.io.ObjectOutputStream stream = new java.io.ObjectOutputStream(archivo);
+		stream.writeObject(instancia);
+		stream.close();
+		archivo.close();
+	}
+
+	public static void cargarDatos() throws java.io.IOException, ClassNotFoundException {
+		java.io.FileInputStream archivo = new java.io.FileInputStream(ARCHIVO_DATOS);
+		java.io.ObjectInputStream stream = new java.io.ObjectInputStream(archivo);
+		instancia = (ControladoraPrestamo) stream.readObject();
+		stream.close();
+		archivo.close();
 	}
 
 }

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-public class Prestamo {
+public class Prestamo implements java.io.Serializable {
 	private Persona prestatario;
 	private LocalDateTime fechaPrestamo;
 	private LocalDateTime fechaLimite;

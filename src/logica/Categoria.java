@@ -2,7 +2,7 @@ package logica;
 
 import java.util.Map;
 
-public class Categoria {
+public class Categoria implements java.io.Serializable {
 	private String tema;
 	private Map <String, Item> items; // TreeMap - Ordenamiento automático de llaves por orden alfabético
 

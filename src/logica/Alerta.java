@@ -2,7 +2,7 @@ package logica;
 
 import java.time.LocalDateTime;
 
-public class Alerta {
+public class Alerta implements java.io.Serializable {
 	private String mensae;
 	private LocalDateTime fechaAlerta;
 	private boolean esRecurrente;

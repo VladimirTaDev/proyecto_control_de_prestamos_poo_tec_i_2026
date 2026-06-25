@@ -126,6 +126,13 @@ public class Principal {
 	 * Create the application.
 	 */
 	public Principal() {
+		// Cargar datos automáticamente al abrir el programa
+		try {
+			ControladoraPrestamo.cargarDatos();
+		} catch (Exception e) {
+			// Ignorar si el archivo no existe.
+		}
+		
 		control = ControladoraPrestamo.getInstancia();
 		
 		initialize();
@@ -142,6 +149,19 @@ public class Principal {
 		frameControlPrestamos.setTitle("Control De Prestamos");
 		frameControlPrestamos.setBounds(100, 100, 650, 350);
 		frameControlPrestamos.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		// Guardar datos automáticamente al cerrar el programa
+		frameControlPrestamos.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				try {
+					ControladoraPrestamo.guardarDatos();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(frameControlPrestamos, "Error al guardar datos: " + e.toString(),
+							"Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frameControlPrestamos.getContentPane().add(tabbedPane, BorderLayout.CENTER);

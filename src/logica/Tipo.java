@@ -3,7 +3,7 @@ package logica;
 import java.util.Collection;
 import java.util.Map;
 
-public class Tipo {
+public class Tipo implements java.io.Serializable {
 	private String formato; // Ejemplo: Libro, Revista, DVD, etc.
 	private Map<String, Item> items; // TreeMap - Ordenamiento automático de llaves por orden alfabético
 

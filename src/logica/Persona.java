@@ -2,7 +2,7 @@ package logica;
 
 import java.util.List;
 
-public class Persona {
+public class Persona implements java.io.Serializable {
 	private String nombre;
 	private String telefono;
 	private String email;
