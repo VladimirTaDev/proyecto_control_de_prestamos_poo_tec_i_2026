@@ -928,6 +928,9 @@ public class Principal {
 			public void componentShown(ComponentEvent e) {
 				// Actualizar todas las pestañas
 				imprimirReportePorUsuario();
+				imprimirReportePorItem();
+				imprimirReportePorCategoria();
+				imprimirReportePorTipo();
 			}
 		});
 		tabbedPane.addTab("Reportes", null, panelReportes, null);
@@ -1612,6 +1615,21 @@ public class Principal {
 	public void imprimirReportePorUsuario() {
 		String reporte = control.reportePorUsuario();
 		textAreaReporteUsuario.setText(reporte);
+	}
+
+	public void imprimirReportePorItem() {
+		String reporte = control.reportePorItem();
+		textAreaReporteItem.setText(reporte);
+	}
+
+	public void imprimirReportePorCategoria() {
+		String reporte = control.reportePorCategoria();
+		textAreaReporteCategoria.setText(reporte);
+	}
+
+	public void imprimirReportePorTipo() {
+		String reporte = control.reportePorTipo();
+		textAreaReporteTipo.setText(reporte);
 	}
 
 }

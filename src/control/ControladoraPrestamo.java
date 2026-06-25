@@ -452,6 +452,64 @@ public class ControladoraPrestamo {
 		return reporte.toString();
 	}
 
+	public String reportePorItem() {
+		StringBuilder reporte = new StringBuilder();
+		
+		// Itera los items
+		for (Item item : items.values()) {
+			reporte.append("Item: ").append(item.getNombre()).append("\n");
+			
+			// Revisa si tiene un préstamo activo
+			if (item.getPrestamoActual() != null) {
+				Prestamo prestamo = item.getPrestamoActual();
+				reporte.append("  Prestado a: ").append(prestamo.getPrestatario().getNombre()).append("\n");
+				reporte.append("  Fecha de préstamo: ").append(prestamo.getFechaPrestamo()).append("\n");
+			} else {
+				reporte.append("  Estado: Disponible\n");
+			}
+		}
+		// Retorna el reporte como String
+		return reporte.toString();
+	}
+
+	public String reportePorCategoria() {
+		StringBuilder reporte = new StringBuilder();
+		
+		// Itera categorías
+		for (String nombreCategoria : categorias.keySet()) {
+			reporte.append("Categoría: ").append(nombreCategoria).append("\n");
+			Categoria categoria = categorias.get(nombreCategoria);
+			
+			// Itera items pertenecientes a esta categoría
+			for (Item item : items.values()) {
+				if (item.getCategoria().equals(categoria)) {
+					reporte.append("  Item: ").append(item.getNombre()).append("\n");
+				}
+			}
+		}
+		// Retorna el reporte como String
+		return reporte.toString();
+	}
+
+	public String reportePorTipo() {
+		StringBuilder reporte = new StringBuilder();
+		
+		// Itera tipos
+		for (String nombreTipo : tipos.keySet()) {
+			reporte.append("Tipo: ").append(nombreTipo).append("\n");
+			Tipo tipo = tipos.get(nombreTipo);
+			
+			// Itera items pertenecientes a este tipo
+			for (Item item : items.values()) {
+				if (item.getTipo().equals(tipo)) {
+					reporte.append("  Item: ").append(item.getNombre()).append("\n");
+				}
+			}
+		}
+		// Retorna el reporte como String
+		return reporte.toString();
+	}
+
 	// TEMPORAL: Carga datos de prueba Metal Gear
 	private void cargarDatosPrueba() {
 		// Personass
